@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Program</title>
+</head>
+<body>
+<a href="/admin/questionbank/program">Program list</a>
+<form th:object="${programCreate}" method="post" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td>Name</td>
+            <td><input type="text" th:field="*{name}"></td>
+        </tr>
+        <tr>
+            <td>Image</td>
+            <td><input type="file" th:field="*{image}"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="tao moi"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

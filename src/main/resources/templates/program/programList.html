@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Program</title>
+</head>
+<body>
+<a href="/admin/questionbank/program/createProgram">Create new program</a>
+<h1>Program List</h1>
+<table border="1">
+    <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <tr th:each="program : ${programList}">
+        <td><img height="100px" width="100px" th:src="@{${program.avatar}}" alt="Error"></td>
+        <td th:text="program.name"></td>
+        <td><a th:href="@{/admin/questionbank/program/edit/__${program.id}__ }">Edit</a></td>
+        <td><a th:href="@{/admin/questionbank/program/delete/__${program.id}__ }">Delete</a></td>
+    </tr>
+</table>
+</body>
+</html>
