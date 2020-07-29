@@ -19,8 +19,8 @@ public class ModuleService implements IModuleService {
     }
 
     @Override
-    public Optional<Module> findById(Long id) {
-        return moduleRepository.findById(id);
+    public Optional<Module> findById(Long moduleId) {
+        return moduleRepository.findById(moduleId);
     }
 
     @Override
@@ -29,8 +29,8 @@ public class ModuleService implements IModuleService {
     }
 
     @Override
-    public void remove(Long id) {
-        moduleRepository.deleteById(id);
+    public void remove(Long moduleId) {
+        moduleRepository.deleteById(moduleId);
     }
 
     @Override

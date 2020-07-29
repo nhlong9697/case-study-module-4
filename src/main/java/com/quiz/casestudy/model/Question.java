@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long questionId;
 
     @Column(nullable = false)
     private String name;
@@ -18,12 +18,12 @@ public class Question {
     @ManyToOne
     private Module module;
 
-    public Long getId() {
-        return id;
+    public Long getQuestionId() {
+        return questionId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setQuestionId(Long id) {
+        this.questionId = id;
     }
 
     public String getName() {

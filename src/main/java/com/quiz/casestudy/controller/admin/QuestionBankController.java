@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
 
 @Controller
 public class QuestionBankController {
@@ -68,10 +67,10 @@ public class QuestionBankController {
         modelAndView.addObject("programCreate",new Program());
         return modelAndView;
     }
-    @GetMapping("/program/{id}")
-    public ModelAndView moduleEditForm(@PathVariable Long id) {
+    @GetMapping("/program/{programId}")
+    public ModelAndView moduleEditForm(@PathVariable Long programId) {
         ModelAndView modelAndView = new ModelAndView("program/programEdit");
-        modelAndView.addObject("programEdit",programService.findById(id));
+        modelAndView.addObject("programEdit",programService.findById(programId));
         return modelAndView;
     }
 
@@ -87,36 +86,36 @@ public class QuestionBankController {
         return modelAndView;
     }
 
-    @GetMapping("/program/delete/{id}")
-    public String deleteForm(@PathVariable Long id) {
-        programService.remove(id);
+    @GetMapping("/program/delete/{programId}")
+    public String deleteForm(@PathVariable Long programId) {
+        programService.remove(programId);
         return "redirect:/program";
     }
 
-    @GetMapping("/admin/questionbank/program/{id}/module")
-    public ModelAndView moduleList(@PathVariable("id") Long id){
-        Program program = programService.findById(id).get();
+    @GetMapping("/program/{programId}/module")
+    public ModelAndView moduleList(@PathVariable("programId") Long programId){
+        Program program = programService.findById(programId).get();
         if (program == null){
             return new ModelAndView("/error.404");
         }
         Iterable<Module> modules = moduleService.findAllByProgram(program);
         ModelAndView modelAndView = new ModelAndView("module/moduleList");
-        modelAndView.addObject("moduleList",moduleService.findAll());
+        modelAndView.addObject("moduleList",modules);
         modelAndView.addObject("program",program);
         return modelAndView;
     }
 
-//    @GetMapping("/admin/questionbank/program/module/create")
-//    public ModelAndView moduleCreateForm(){
-//        ModelAndView modelAndView = new ModelAndView("module/moduleCreate");
-//        modelAndView.addObject("moduleCreate",new Module());
-//        return modelAndView;
-//    }
-//
-//    @PostMapping("/admin/questionbank/program/create")
-//    public ModelAndView moduleCreate(@ModelAttribute Module module){
-//        ModelAndView modelAndView = new ModelAndView("program/programCreate");
-//        modelAndView.addObject("programCreate",new Program());
-//        return modelAndView;
-//    }
+    @GetMapping("/program/module/create")
+    public ModelAndView moduleCreateForm(){
+        ModelAndView modelAndView = new ModelAndView("module/moduleCreate");
+        modelAndView.addObject("moduleCreate",new Module());
+        return modelAndView;
+    }
+
+    @PostMapping("/program/module/create")
+    public ModelAndView moduleCreate(@ModelAttribute Module module){
+        ModelAndView modelAndView = new ModelAndView("module/moduleCreate");
+        modelAndView.addObject("moduleCreate",new Program());
+        return modelAndView;
+    }
 }

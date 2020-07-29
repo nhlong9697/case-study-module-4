@@ -18,8 +18,8 @@ public class QuestionService implements IQuestionService {
     }
 
     @Override
-    public Optional<Question> findById(Long id) {
-        return questionRepository.findById(id);
+    public Optional<Question> findById(Long questionId) {
+        return questionRepository.findById(questionId);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class QuestionService implements IQuestionService {
     }
 
     @Override
-    public void remove(Long id) {
-        questionRepository.deleteById(id);
+    public void remove(Long questionId) {
+        questionRepository.deleteById(questionId);
     }
 }
