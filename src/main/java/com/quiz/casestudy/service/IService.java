@@ -1,6 +1,5 @@
 package com.quiz.casestudy.service;
 
-import com.quiz.casestudy.model.Module;
 
 import java.util.Optional;
 
