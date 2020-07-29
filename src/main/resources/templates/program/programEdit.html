@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Program</title>
+</head>
+<body>
+<a href="/admin/questionbank/program">Program List</a>
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+<form th:object="${programEdit}" th:action="@{/edit}" method="post" enctype="multipart/form-data">
+    <input th:type="hidden" name="id" th:field="*{id}">
+    <table>
+        <tr>
+            <td>Program Name</td>
+            <td><input type="text" th:field="*{name}"></td>
+
+            <td>Image</td>
+            <td><input type="file" th:field="*{image}"></td>
+
+            <td></td>
+            <td><input type="submit" value="Edit"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

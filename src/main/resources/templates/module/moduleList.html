@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Module List</title>
+</head>
+<body>
+<a href="/admin/questionbank/program">Program List</a>
+<h1>Program List: <span th:text="${program.name}"></span> </h1>
+<a href="program/module/create">Create new module</a>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <tr th:each="module : ${moduleList}">
+        <td th:text="module.name"></td>
+        <td><a th:href="@{/admin/questionbank/program/module/edit/__${module.id}__/question }">Edit</a></td>
+        <td><a th:href="@{/admin/questionbank/program/module/delete/__${module.id}__ }">Delete</a></td>
+    </tr>
+</table>
+</body>
+</html>
