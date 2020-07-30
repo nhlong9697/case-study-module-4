@@ -6,15 +6,14 @@
 </head>
 <body>
 <!--<a href="/program/module">Program list</a>-->
-<form th:object="${programCreate}" method="post" enctype="multipart/form-data">
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+<form th:object="${moduleCreate}" method="post" enctype="multipart/form-data">
     <table>
         <tr>
             <td>Name</td>
             <td><input type="text" th:field="*{name}"></td>
-        </tr>
-        <tr>
-            <td>Image</td>
-            <td><input type="file" th:field="*{image}"></td>
         </tr>
         <tr>
             <td></td>

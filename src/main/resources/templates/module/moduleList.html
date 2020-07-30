@@ -5,9 +5,9 @@
     <title>Module List</title>
 </head>
 <body>
-<a href="/program">Program List</a>
+<a href="/admin/questionbank/program">Program List</a>
 <h1>Program List: <span th:text="${program.name}"></span> </h1>
-<a href="program/module/create">Create new module</a>
+<a th:href="@{/admin/questionbank/program/__${program.id}__/module/create}">Create new module</a>
 <table border="1">
     <tr>
         <th>Name</th>
@@ -15,9 +15,9 @@
         <th>Delete</th>
     </tr>
     <tr th:each="module : ${moduleList}">
-        <td><a th:href="@{/program/module/__${module.moduleId}__/question}"><p th:text="${module.name}"></p></a><</td>
-        <td><a th:href="@{/program/module/edit/__${module.moduleId}__ }">Edit</a></td>
-        <td><a th:href="@{/program/module/delete/__${module.moduleId}__ }">Delete</a></td>
+        <td><a th:href="@{/admin/questionbank/program/module/__${module.id}__/question}"><p th:text="${module.name}"></p></a></td>
+        <td><a th:href="@{/admin/questionbank/program/__${program.id}__/module/edit/__${module.id}__ }">Edit</a></td>
+        <td><a th:href="@{/admin/questionbank/program/module/delete/__${module.id}__ }">Delete</a></td>
     </tr>
 </table>
 </body>

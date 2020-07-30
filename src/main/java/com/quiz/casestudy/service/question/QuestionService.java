@@ -1,5 +1,6 @@
 package com.quiz.casestudy.service.question;
 
+import com.quiz.casestudy.model.Module;
 import com.quiz.casestudy.model.Question;
 import com.quiz.casestudy.repository.IQuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ public class QuestionService implements IQuestionService {
     }
 
     @Override
-    public Optional<Question> findById(Long questionId) {
-        return questionRepository.findById(questionId);
+    public Optional<Question> findById(Long id) {
+        return questionRepository.findById(id);
     }
 
     @Override
@@ -28,7 +29,12 @@ public class QuestionService implements IQuestionService {
     }
 
     @Override
-    public void remove(Long questionId) {
-        questionRepository.deleteById(questionId);
+    public void remove(Long id) {
+        questionRepository.deleteById(id);
+    }
+
+    @Override
+    public Iterable<Question> findAllByModule(Module module) {
+        return questionRepository.findAllByModule(module);
     }
 }

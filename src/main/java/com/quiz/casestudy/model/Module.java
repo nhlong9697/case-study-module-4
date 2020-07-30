@@ -7,10 +7,10 @@ import javax.persistence.*;
 public class Module {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long moduleId;
+    private Long id;
 
     @Column(nullable = false)
-    private  String name;
+    private String name;
 
     @ManyToOne
     private Program program;
@@ -22,12 +22,12 @@ public class Module {
         this.name = name;
     }
 
-    public Long getModuleId() {
-        return moduleId;
+    public Long getId() {
+        return id;
     }
 
-    public void setModuleId(Long id) {
-        this.moduleId = id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

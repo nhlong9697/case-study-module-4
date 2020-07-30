@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Question List</title>
 </head>
 <body>
-
+<h1>Question list:  <span th:text="${module.name}"></span></h1>
+<a th:href="@{/admin/questionbank/program/module/__${module.id}__/question/create}">Create new question</a>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>type</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <tr th:each="question : ${questionList}">
+        <td><a th:href="@{/admin/questionbank/program/module/question/__${question.id}__/answer}"><p th:text="${question.name}"></p></a></td>
+        <td th:text="${question.type}"></td>
+        <td><a th:href="@{/admin/questionbank/program/module/__${module.id}__/question/edit/__${question.id}__ }">Edit</a></td>
+        <td><a th:href="@{/admin/questionbank/program/module/question/delete/__${question.id}__ }">Delete</a></td>
+    </tr>
+</table>
 </body>
 </html>

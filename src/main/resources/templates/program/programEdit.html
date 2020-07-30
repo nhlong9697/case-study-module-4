@@ -5,12 +5,12 @@
     <title>Edit Program</title>
 </head>
 <body>
-<a href="/program">Program List</a>
+<a href="/admin/questionbank/program">Program List</a>
 <th:block th:if="${message}">
     <p th:text="${message}"></p>
 </th:block>
-<form th:object="${programEdit}" th:action="@{/edit}" method="post" enctype="multipart/form-data">
-    <input th:type="hidden" name="id" th:field="*{programId}">
+<form th:object="${programEdit}" th:action="@{/admin/questionbank/program/edit}" method="post" enctype="multipart/form-data">
+    <input th:type="hidden" name="id" th:field="*{id}">
     <table>
         <tr>
             <td>Program Name</td>

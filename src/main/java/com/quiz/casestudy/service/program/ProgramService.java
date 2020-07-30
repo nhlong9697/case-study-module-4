@@ -18,8 +18,8 @@ public class ProgramService implements IProgramService {
     }
 
     @Override
-    public Optional<Program> findById(Long programId) {
-        return programRepository.findById(programId);
+    public Optional<Program> findById(Long id) {
+        return programRepository.findById(id);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class ProgramService implements IProgramService {
     }
 
     @Override
-    public void remove(Long programId) {
-        programRepository.deleteById(programId);
+    public void remove(Long id) {
+        programRepository.deleteById(id);
     }
 }
