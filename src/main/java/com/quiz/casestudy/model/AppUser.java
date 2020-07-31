@@ -1,6 +1,8 @@
 package com.quiz.casestudy.model;
 
 
+import com.quiz.casestudy.validator.ValidEmail;
+import com.quiz.casestudy.validator.ValidPassword;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,11 +17,11 @@ public class AppUser {
     private Long id;
 
     @Column(nullable = false,length = 200)
-    @Pattern(regexp = "[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+", message = "{invalid.email}")
+    @ValidEmail(message = "{user.register.error.invalidEmail}")
     private String email;
 
     @Column(nullable = false)
-    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$", message = "{invalid.password}")
+    @ValidPassword(message = "{user.register.error.invalidPassword}")
     private String password;
 
     @ManyToOne

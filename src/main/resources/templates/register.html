@@ -1,19 +1,38 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
 </head>
 <body>
+<div sec:authorize="isAuthenticated()">
+    <span sec:authentication="principal.username"></span>, <a href="/logout">logout</a>.
+</div>
+<span th:if="${success_message}" th:text="${success_message}"></span>
 <form action="/register" method="post" th:object="${user}">
     <table>
         <tr>
-            <td>Email</td>
+            <td th:text="#{label.user.email}"></td>
             <td><input type="text" th:field="*{email}"></td>
+            <div th:each="error: ${#fields.errors('email')}"
+               th:text="${error}"></div>
+            <div th:if="${duplicate_message}" th:text="${duplicate_message}"></div>
         </tr>
         <tr>
-            <td>Password</td>
+            <td th:text="#{label.user.password}"></td>
             <td><input type="password" th:field="*{password}"></td>
+            <div th:each="error: ${#fields.errors('password')}"
+                 th:text="#{error}"></div>
+        </tr>
+        <tr>
+            <td th:text="#{label.user.role}"></td>
+            <td>
+                <select th:field="*{role}">
+                    <option th:each="r : ${roles}" th:value="${r.id}"
+                            th:text="${r.authority}"></option>
+                </select>
+            </td>
         </tr>
         <tr>
             <td></td>

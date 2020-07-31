@@ -3,6 +3,7 @@ package com.quiz.casestudy.service.userservice;
 
 import com.quiz.casestudy.model.AppUser;
 import com.quiz.casestudy.repository.IAppUserRepository;
+import com.quiz.casestudy.service.userservice.exception.UserAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -59,5 +60,9 @@ public class AppUserService implements IAppUserService, UserDetailsService {
     @Override
     public void remove(Long id) {
         userRepository.deleteById(id);
+    }
+
+    private boolean emailExists(String email) {
+        return userRepository.findByEmail(email) != null;
     }
 }

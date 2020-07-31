@@ -17,6 +17,9 @@ public class Student {
     @Column(nullable = false)
     private String name;
 
+    @ManyToOne
+    private Classes classId;
+
     private String avatar;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -39,43 +42,4 @@ public class Student {
         this.avatar = avatar;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public AppUser getAppUser() {
-        return appUser;
-    }
-
-    public void setAppUser(AppUser appUser) {
-        this.appUser = appUser;
-    }
-
-    public MultipartFile getImage() {
-        return image;
-    }
-
-    public void setImage(MultipartFile image) {
-        this.image = image;
-    }
 }
