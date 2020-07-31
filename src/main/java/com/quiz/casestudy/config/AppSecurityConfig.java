@@ -21,15 +21,12 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private IAppUserService appUserService;
 
     @Autowired
     protected void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService((UserDetailsService) appUserService)
-                .passwordEncoder(passwordEncoder);
+                .passwordEncoder(passwordEncoder());
     }
 
     @Override
