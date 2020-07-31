@@ -55,14 +55,14 @@ public class QuestionBankController {
 
     @GetMapping("/questionbank/program")
     public ModelAndView programList(){
-        ModelAndView modelAndView = new ModelAndView("program/programList");
+        ModelAndView modelAndView = new ModelAndView("questionbank/program/programList");
         modelAndView.addObject("programList",programService.findAll());
         return modelAndView;
     }
 
     @GetMapping("/questionbank/program/create")
     public ModelAndView programCreateForm(){
-        ModelAndView modelAndView = new ModelAndView("program/programCreate");
+        ModelAndView modelAndView = new ModelAndView("questionbank/program/programCreate");
         modelAndView.addObject("programCreate",new Program());
         return modelAndView;
     }
@@ -71,7 +71,7 @@ public class QuestionBankController {
     public ModelAndView programCreate(@ModelAttribute Program program){
         MultipartFile file = program.getImage();
         String fileName = file.getOriginalFilename();
-        String fileUpload = environment.getProperty("upload.path").toString();
+        String fileUpload = environment.getProperty("upload.path");
         try {
             FileCopyUtils.copy(file.getBytes(), new File(fileUpload + fileName));
         } catch (IOException e) {
@@ -79,14 +79,14 @@ public class QuestionBankController {
         }
         Program program1 = new Program(program.getName(), fileName);
         programService.save(program1);
-        ModelAndView modelAndView = new ModelAndView("program/programCreate");
+        ModelAndView modelAndView = new ModelAndView("questionbank/program/programCreate");
         modelAndView.addObject("programCreate",new Program());
         modelAndView.addObject("message", "Program updated successfully");
         return modelAndView;
     }
     @GetMapping("/questionbank/program/edit/{id}")
     public ModelAndView programEditForm(@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView("program/programEdit");
+        ModelAndView modelAndView = new ModelAndView("questionbank/program/programEdit");
         modelAndView.addObject("programEdit",programService.findById(id));
         return modelAndView;
     }
@@ -97,7 +97,7 @@ public class QuestionBankController {
         String fileName = file.getOriginalFilename();
         program.setAvatar(fileName);
         programService.save(program);
-        ModelAndView modelAndView = new ModelAndView("program/programEdit");
+        ModelAndView modelAndView = new ModelAndView("questionbank/program/programEdit");
         modelAndView.addObject("programEdit", program);
         modelAndView.addObject("message", "Program updated successfully");
         return modelAndView;
@@ -116,7 +116,7 @@ public class QuestionBankController {
             return new ModelAndView("/error.404");
         }
         Iterable<Module> modules = moduleService.findAllByProgram(program);
-        ModelAndView modelAndView = new ModelAndView("module/moduleList");
+        ModelAndView modelAndView = new ModelAndView("/questionbank/module/moduleList");
         modelAndView.addObject("moduleList",modules);
         modelAndView.addObject("program",program);
         return modelAndView;
@@ -124,7 +124,7 @@ public class QuestionBankController {
 
     @GetMapping("/questionbank/program/{programId}/module/create")
     public ModelAndView moduleCreateForm(@PathVariable Long programId){
-        ModelAndView modelAndView = new ModelAndView("module/moduleCreate");
+        ModelAndView modelAndView = new ModelAndView("questionbank/module/moduleCreate");
         modelAndView.addObject("moduleCreate",new Module());
         return modelAndView;
     }
@@ -136,14 +136,14 @@ public class QuestionBankController {
             module.setProgram(program.get());
         }
         moduleService.save(module);
-        ModelAndView modelAndView = new ModelAndView("module/moduleCreate");
+        ModelAndView modelAndView = new ModelAndView("questionbank/module/moduleCreate");
         modelAndView.addObject("moduleCreate",new Module());
         modelAndView.addObject("message", "Module create successfully");
         return modelAndView;
     }
     @GetMapping("/questionbank/program/{programId}/module/edit/{id}")
     public ModelAndView moduleEditForm(@PathVariable Long programId, @PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView("module/moduleEdit");
+        ModelAndView modelAndView = new ModelAndView("/questionbank/module/moduleEdit");
         modelAndView.addObject("moduleEdit",moduleService.findById(id));
         modelAndView.addObject("programId",programId);
         return modelAndView;
@@ -156,7 +156,7 @@ public class QuestionBankController {
             module.setProgram(program.get());
         }
         moduleService.save(module);
-        ModelAndView modelAndView = new ModelAndView("module/moduleEdit");
+        ModelAndView modelAndView = new ModelAndView("/questionbank/module/moduleEdit");
         modelAndView.addObject("moduleEdit", module);
         modelAndView.addObject("message", "Module updated successfully");
         return modelAndView;
@@ -175,7 +175,7 @@ public class QuestionBankController {
             return new ModelAndView("/error.404");
         }
         Iterable<Question> questions = questionService.findAllByModule(module);
-        ModelAndView modelAndView = new ModelAndView("question/questionList");
+        ModelAndView modelAndView = new ModelAndView("/questionbank/question/questionList");
         modelAndView.addObject("module",module);
         modelAndView.addObject("questionList",questions);
         return modelAndView;
@@ -183,7 +183,7 @@ public class QuestionBankController {
 
     @GetMapping("/questionbank/program/module/{moduleId}/question/create")
     public ModelAndView questionCreateForm(@PathVariable Long moduleId){
-        ModelAndView modelAndView = new ModelAndView("question/questionCreate");
+        ModelAndView modelAndView = new ModelAndView("questionbank/question/questionCreate");
         modelAndView.addObject("questionCreate",new Question());
         return modelAndView;
     }
@@ -195,7 +195,7 @@ public class QuestionBankController {
             question.setModule(module.get());
         }
         questionService.save(question);
-        ModelAndView modelAndView = new ModelAndView("question/questionCreate");
+        ModelAndView modelAndView = new ModelAndView("questionbank/question/questionCreate");
         modelAndView.addObject("questionCreate",new Question());
         modelAndView.addObject("message", "Question create successfully");
         return modelAndView;
@@ -203,7 +203,7 @@ public class QuestionBankController {
 
     @GetMapping("/questionbank/program/module/{moduleId}/question/edit/{id}")
     public ModelAndView questionEditForm(@PathVariable Long moduleId,@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView("question/questionEdit");
+        ModelAndView modelAndView = new ModelAndView("questionbank/question/questionEdit");
         modelAndView.addObject("questionEdit",questionService.findById(id));
         modelAndView.addObject("moduleId",moduleId);
         return modelAndView;
@@ -216,7 +216,7 @@ public class QuestionBankController {
             question.setModule(module.get());
         }
         questionService.save(question);
-        ModelAndView modelAndView = new ModelAndView("question/questionEdit");
+        ModelAndView modelAndView = new ModelAndView("questionbank/question/questionEdit");
         modelAndView.addObject("questionEdit", question);
         modelAndView.addObject("message", "Question updated successfully");
         return modelAndView;
@@ -235,7 +235,7 @@ public class QuestionBankController {
             return new ModelAndView("/error.404");
         }
         Iterable<Answer> answers = answerService.findAllByQuestion(question);
-        ModelAndView modelAndView = new ModelAndView("answer/answerList");
+        ModelAndView modelAndView = new ModelAndView("questionbank/answer/answerList");
         modelAndView.addObject("question",question);
         modelAndView.addObject("answers",answers);
         return modelAndView;
@@ -243,7 +243,7 @@ public class QuestionBankController {
 
     @GetMapping("/questionbank/program/module/question/{questionId}/answer/create")
     public ModelAndView answerCreateForm(@PathVariable Long questionId){
-        ModelAndView modelAndView = new ModelAndView("answer/answerCreate");
+        ModelAndView modelAndView = new ModelAndView("questionbank/answer/answerCreate");
         modelAndView.addObject("answerCreate",new Answer());
         return modelAndView;
     }
@@ -255,7 +255,7 @@ public class QuestionBankController {
             answer.setQuestion(question.get());
         }
         answerService.save(answer);
-        ModelAndView modelAndView = new ModelAndView("answer/answerCreate");
+        ModelAndView modelAndView = new ModelAndView("questionbank/answer/answerCreate");
         modelAndView.addObject("answerCreate",new Answer());
         modelAndView.addObject("message", "answer create successfully");
         return modelAndView;
@@ -263,7 +263,7 @@ public class QuestionBankController {
 
     @GetMapping("/questionbank/program/module/question/{questionId}/answer/edit/{id}")
     public ModelAndView answerEditForm(@PathVariable Long questionId,@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView("answer/answerEdit");
+        ModelAndView modelAndView = new ModelAndView("questionbank/answer/answerEdit");
         modelAndView.addObject("answerEdit",answerService.findById(id));
         modelAndView.addObject("questionId",questionId);
         return modelAndView;
@@ -276,7 +276,7 @@ public class QuestionBankController {
             answer.setQuestion(question.get());
         }
         answerService.save(answer);
-        ModelAndView modelAndView = new ModelAndView("answer/answerEdit");
+        ModelAndView modelAndView = new ModelAndView("questionbank/answer/answerEdit");
         modelAndView.addObject("answerEdit", answer);
         modelAndView.addObject("message", "answer updated successfully");
         return modelAndView;

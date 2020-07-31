@@ -23,7 +23,7 @@
             <td th:text="#{label.user.password}"></td>
             <td><input type="password" th:field="*{password}"></td>
             <div th:each="error: ${#fields.errors('password')}"
-                 th:text="#{error}"></div>
+                 th:text="${error}"></div>
         </tr>
         <tr>
             <td th:text="#{label.user.role}"></td>
