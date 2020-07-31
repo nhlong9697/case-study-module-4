@@ -7,7 +7,7 @@
 <body>
 <a href="/admin/questionbank/program">Program List</a>
 <h1>Program List: <span th:text="${program.name}"></span> </h1>
-<a href="program/module/create">Create new module</a>
+<a th:href="@{/admin/questionbank/program/__${program.id}__/module/create}">Create new module</a>
 <table border="1">
     <tr>
         <th>Name</th>
@@ -15,9 +15,9 @@
         <th>Delete</th>
     </tr>
     <tr th:each="module : ${moduleList}">
-        <td th:text="module.name"></td>
-        <td><a th:href="@{/admin/questionbank/program/module/edit/__${module.id}__/question }">Edit</a></td>
-        <td><a th:href="@{/admin/questionbank/program/module/delete/__${module.id}__ }">Delete</a></td>
+        <td><a th:href="@{/admin/questionbank/program/module/__${module.id}__/question}"><p th:text="${module.name}"></p></a></td>
+        <td><a th:href="@{/admin/questionbank/program/__${program.id}__/module/edit/__${module.id}__ }">Edit</a></td>
+        <td><a th:href="@{/admin/questionbank/program/__${program.id}__/module/delete/__${module.id}__ }">Delete</a></td>
     </tr>
 </table>
 </body>

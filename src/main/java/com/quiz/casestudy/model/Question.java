@@ -1,6 +1,8 @@
 package com.quiz.casestudy.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Entity
 @Table
@@ -13,6 +15,8 @@ public class Question {
     private String name;
 
     @Column(nullable = false)
+    @Min(1)
+    @Max(3)
     private int type;
 
     @ManyToOne
@@ -30,7 +34,7 @@ public class Question {
         return name;
     }
 
-    public void setName(String Name) {
+    public void setName(String name) {
         this.name = name;
     }
 

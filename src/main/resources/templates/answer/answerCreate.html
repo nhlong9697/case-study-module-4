@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Answer Create</title>
 </head>
 <body>
-
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+<form th:object="${answerCreate}" method="post" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td>Name</td>
+            <td><input type="text" th:field="*{name}"></td>
+        </tr>
+        <tr>
+            <td>Status</td>
+            <td>
+                <input type="radio" th:field="*{status}" th:value="true">
+                <label>true</label>
+            </td>
+            <td>
+                <input type="radio" th:field="*{status}" th:value="false">
+                <label>false</label>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="tao moi"></td>
+        </tr>
+    </table>
+</form>
 </body>
 </html>

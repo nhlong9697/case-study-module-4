@@ -6,6 +6,9 @@
 </head>
 <body>
 <a href="/admin/questionbank/program">Program list</a>
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
 <form th:object="${programCreate}" method="post" enctype="multipart/form-data">
     <table>
         <tr>
