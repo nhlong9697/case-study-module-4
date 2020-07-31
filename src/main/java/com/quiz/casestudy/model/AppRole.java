@@ -23,4 +23,10 @@ public class AppRole implements GrantedAuthority {
     public String getAuthority() {
         return this.authority;
     }
+
+    public AppRole() {
+    }
+    public AppRole(String authority) {
+        this.authority = authority;
+    }
 }
