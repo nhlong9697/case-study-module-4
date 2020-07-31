@@ -18,7 +18,7 @@
         <td th:text="${answer.name}"></td>
         <td th:text="${answer.status}"></td>
         <td><a th:href="@{/admin/questionbank/program/module/question/__${question.id}__/answer/edit/__${answer.id}__ }">Edit</a></td>
-        <td><a th:href="@{/admin/questionbank/program/module/question/answer/delete/__${answer.id}__ }">Delete</a></td>
+        <td><a th:href="@{/admin/questionbank/program/module/question/__${question.id}__/answer/delete/__${answer.id}__ }">Delete</a></td>
     </tr>
 </table>
 </body>

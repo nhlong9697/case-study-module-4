@@ -81,6 +81,7 @@ public class QuestionBankController {
         programService.save(program1);
         ModelAndView modelAndView = new ModelAndView("program/programCreate");
         modelAndView.addObject("programCreate",new Program());
+        modelAndView.addObject("message", "Program updated successfully");
         return modelAndView;
     }
     @GetMapping("/questionbank/program/edit/{id}")
@@ -161,10 +162,10 @@ public class QuestionBankController {
         return modelAndView;
     }
 
-    @GetMapping("/questionbank/program/module/delete/{id}")
-    public String moduleDeleteForm(@PathVariable Long id) {
+    @GetMapping("/questionbank/program/{programId}/module/delete/{id}")
+    public String moduleDeleteForm(@PathVariable Long programId,@PathVariable Long id) {
         moduleService.remove(id);
-        return "redirect:/admin/questionbank/program";
+        return "redirect:/admin/questionbank/program/{programId}/module";
     }
 
     @GetMapping("/questionbank/program/module/{id}/question")
@@ -221,10 +222,10 @@ public class QuestionBankController {
         return modelAndView;
     }
 
-    @GetMapping("/questionbank/program/module/question/delete/{id}")
-    public String questionDeleteForm(@PathVariable Long id) {
+    @GetMapping("/questionbank/program/module/{moduleId}/question/delete/{id}")
+    public String questionDeleteForm(@PathVariable Long moduleId, @PathVariable Long id) {
         questionService.remove(id);
-        return "redirect:/admin/questionbank/program";
+        return "redirect:/admin/questionbank/program/module/{moduleId}/question";
     }
 
     @GetMapping("/questionbank/program/module/question/{id}/answer")
@@ -279,5 +280,11 @@ public class QuestionBankController {
         modelAndView.addObject("answerEdit", answer);
         modelAndView.addObject("message", "answer updated successfully");
         return modelAndView;
+    }
+
+    @GetMapping("/questionbank/program/module/question/{questionId}/answer/delete/{id}")
+    public String answerDeleteForm(@PathVariable Long questionId,@PathVariable Long id) {
+        answerService.remove(id);
+        return "redirect:/admin/questionbank/program/module/question/{question}/answer";
     }
 }

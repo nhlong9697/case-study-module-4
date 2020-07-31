@@ -17,7 +17,7 @@
     <tr th:each="module : ${moduleList}">
         <td><a th:href="@{/admin/questionbank/program/module/__${module.id}__/question}"><p th:text="${module.name}"></p></a></td>
         <td><a th:href="@{/admin/questionbank/program/__${program.id}__/module/edit/__${module.id}__ }">Edit</a></td>
-        <td><a th:href="@{/admin/questionbank/program/module/delete/__${module.id}__ }">Delete</a></td>
+        <td><a th:href="@{/admin/questionbank/program/__${program.id}__/module/delete/__${module.id}__ }">Delete</a></td>
     </tr>
 </table>
 </body>
