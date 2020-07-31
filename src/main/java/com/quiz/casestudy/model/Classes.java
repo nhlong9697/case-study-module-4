@@ -11,9 +11,6 @@ import javax.validation.constraints.NotEmpty;
 @Table
 @Data
 public class Classes {
-    @Autowired
-    private MessageSource messageSource;
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
