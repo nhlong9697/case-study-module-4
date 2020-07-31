@@ -38,6 +38,7 @@ dependencies {
     }
     testImplementation 'org.springframework.security:spring-security-test'
     runtimeOnly 'mysql:mysql-connector-java'
+    runtimeOnly 'org.postgresql:postgresql'
 }
 
 test {
