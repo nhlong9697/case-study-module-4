@@ -124,26 +124,31 @@ public class QuestionBankController {
 
     @GetMapping("/questionbank/program/{programId}/module/create")
     public ModelAndView moduleCreateForm(@PathVariable Long programId){
+        Program program = programService.findById(programId).get();
         ModelAndView modelAndView = new ModelAndView("questionbank/module/moduleCreate");
         modelAndView.addObject("moduleCreate",new Module());
+        modelAndView.addObject("program",program);
         return modelAndView;
     }
 
     @PostMapping("/questionbank/program/{programId}/module/create")
     public ModelAndView moduleCreate(@ModelAttribute("moduleCreate") Module module, @PathVariable Long programId){
-        Optional<Program> program = programService.findById(programId);
-        if(program.isPresent()){
-            module.setProgram(program.get());
+        Program program = programService.findById(programId).get();
+        if(program != null){
+            module.setProgram(program);
         }
         moduleService.save(module);
         ModelAndView modelAndView = new ModelAndView("questionbank/module/moduleCreate");
         modelAndView.addObject("moduleCreate",new Module());
+        modelAndView.addObject("program",program);
         modelAndView.addObject("message", "Module create successfully");
         return modelAndView;
     }
     @GetMapping("/questionbank/program/{programId}/module/edit/{id}")
     public ModelAndView moduleEditForm(@PathVariable Long programId, @PathVariable Long id) {
+        Program program = programService.findById(programId).get();
         ModelAndView modelAndView = new ModelAndView("/questionbank/module/moduleEdit");
+        modelAndView.addObject("program",program);
         modelAndView.addObject("moduleEdit",moduleService.findById(id));
         modelAndView.addObject("programId",programId);
         return modelAndView;
@@ -151,13 +156,14 @@ public class QuestionBankController {
 
     @PostMapping("/questionbank/program/{programId}/module/edit")
     public ModelAndView moduleEdit(@ModelAttribute("moduleEdit") Module module,@PathVariable Long programId) {
-        Optional<Program> program = programService.findById(programId);
-        if(program.isPresent()){
-            module.setProgram(program.get());
+        Program program = programService.findById(programId).get();
+        if(program != null){
+            module.setProgram(program);
         }
         moduleService.save(module);
         ModelAndView modelAndView = new ModelAndView("/questionbank/module/moduleEdit");
         modelAndView.addObject("moduleEdit", module);
+        modelAndView.addObject("program",program);
         modelAndView.addObject("message", "Module updated successfully");
         return modelAndView;
     }
@@ -168,9 +174,10 @@ public class QuestionBankController {
         return "redirect:/admin/questionbank/program/{programId}/module";
     }
 
-    @GetMapping("/questionbank/program/module/{id}/question")
-    public ModelAndView questionList(@PathVariable("id") Long id){
+    @GetMapping("/questionbank/program/{programId}/module/{id}/question")
+    public ModelAndView questionList(@PathVariable("programId") Long programId , @PathVariable("id") Long id){
         Module module = moduleService.findById(id).get();
+        Program program = programService.findById(programId).get();
         if (module == null){
             return new ModelAndView("/error.404");
         }
@@ -178,113 +185,152 @@ public class QuestionBankController {
         ModelAndView modelAndView = new ModelAndView("/questionbank/question/questionList");
         modelAndView.addObject("module",module);
         modelAndView.addObject("questionList",questions);
+        modelAndView.addObject("program",program);
         return modelAndView;
     }
 
-    @GetMapping("/questionbank/program/module/{moduleId}/question/create")
-    public ModelAndView questionCreateForm(@PathVariable Long moduleId){
+    @GetMapping("/questionbank/program/{programId}/module/{moduleId}/question/create")
+    public ModelAndView questionCreateForm(@PathVariable("programId") Long programId ,@PathVariable Long moduleId){
+        Module module = moduleService.findById(moduleId).get();
+        Program program = programService.findById(programId).get();
         ModelAndView modelAndView = new ModelAndView("questionbank/question/questionCreate");
         modelAndView.addObject("questionCreate",new Question());
+        modelAndView.addObject("program",program);
+        modelAndView.addObject("module",module);
         return modelAndView;
     }
 
-    @PostMapping("/questionbank/program/module/{moduleId}/question/create")
-    public ModelAndView questionCreate(@ModelAttribute("questionCreate") Question question, @PathVariable Long moduleId){
-        Optional<Module> module = moduleService.findById(moduleId);
-        if(module.isPresent()){
-            question.setModule(module.get());
+    @PostMapping("/questionbank/program/{programId}/module/{moduleId}/question/create")
+    public ModelAndView questionCreate(@ModelAttribute("questionCreate") Question question,@PathVariable("programId") Long programId, @PathVariable Long moduleId){
+        Program program = programService.findById(programId).get();
+        Module module = moduleService.findById(moduleId).get();
+        if(module != null){
+            question.setModule(module);
         }
         questionService.save(question);
         ModelAndView modelAndView = new ModelAndView("questionbank/question/questionCreate");
         modelAndView.addObject("questionCreate",new Question());
+        modelAndView.addObject("program",program);
+        modelAndView.addObject("module",module);
         modelAndView.addObject("message", "Question create successfully");
         return modelAndView;
     }
 
-    @GetMapping("/questionbank/program/module/{moduleId}/question/edit/{id}")
-    public ModelAndView questionEditForm(@PathVariable Long moduleId,@PathVariable Long id) {
+    @GetMapping("/questionbank/program/{programId}/module/{moduleId}/question/edit/{id}")
+    public ModelAndView questionEditForm(@PathVariable Long moduleId,@PathVariable("programId") Long programId,@PathVariable Long id) {
+        Program program = programService.findById(programId).get();
+        Module module = moduleService.findById(moduleId).get();
         ModelAndView modelAndView = new ModelAndView("questionbank/question/questionEdit");
         modelAndView.addObject("questionEdit",questionService.findById(id));
-        modelAndView.addObject("moduleId",moduleId);
+        modelAndView.addObject("program",program);
+        modelAndView.addObject("module",module);
         return modelAndView;
     }
 
-    @PostMapping("/questionbank/program/module/{moduleId}/question/edit")
-    public ModelAndView questionEdit(@ModelAttribute("questionEdit") Question question, @PathVariable Long moduleId) {
-        Optional<Module> module = moduleService.findById(moduleId);
-        if(module.isPresent()){
-            question.setModule(module.get());
+    @PostMapping("/questionbank/program/{programId}/module/{moduleId}/question/edit")
+    public ModelAndView questionEdit(@ModelAttribute("questionEdit") Question question,@PathVariable("programId") Long programId, @PathVariable Long moduleId) {
+        Module module = moduleService.findById(moduleId).get();
+        Program program = programService.findById(programId).get();
+        if(module != null){
+            question.setModule(module);
         }
         questionService.save(question);
         ModelAndView modelAndView = new ModelAndView("questionbank/question/questionEdit");
         modelAndView.addObject("questionEdit", question);
+        modelAndView.addObject("program",program);
+        modelAndView.addObject("module",module);
         modelAndView.addObject("message", "Question updated successfully");
         return modelAndView;
     }
 
-    @GetMapping("/questionbank/program/module/{moduleId}/question/delete/{id}")
-    public String questionDeleteForm(@PathVariable Long moduleId, @PathVariable Long id) {
+    @GetMapping("/questionbank/program/{programId}/module/{moduleId}/question/delete/{id}")
+    public String questionDeleteForm(@PathVariable("programId") Long programId,@PathVariable Long moduleId, @PathVariable Long id) {
         questionService.remove(id);
-        return "redirect:/admin/questionbank/program/module/{moduleId}/question";
+        return "redirect:/admin/questionbank/program/{programId}/module/{moduleId}/question";
     }
 
-    @GetMapping("/questionbank/program/module/question/{id}/answer")
-    public ModelAndView answerList(@PathVariable("id") Long id){
+    @GetMapping("/questionbank/program/{programId}/module/{moduleId}/question/{id}/answer")
+    public ModelAndView answerList(@PathVariable("programId") Long programId, @PathVariable Long moduleId,@PathVariable("id") Long id){
+        Program program = programService.findById(programId).get();
+        Module module = moduleService.findById(moduleId).get();
         Question question = questionService.findById(id).get();
         if (question == null){
             return new ModelAndView("/error.404");
         }
         Iterable<Answer> answers = answerService.findAllByQuestion(question);
         ModelAndView modelAndView = new ModelAndView("questionbank/answer/answerList");
+        modelAndView.addObject("program",program);
+        modelAndView.addObject("module",module);
         modelAndView.addObject("question",question);
         modelAndView.addObject("answers",answers);
         return modelAndView;
     }
 
-    @GetMapping("/questionbank/program/module/question/{questionId}/answer/create")
-    public ModelAndView answerCreateForm(@PathVariable Long questionId){
+    @GetMapping("/questionbank/program/{programId}/module/{moduleId}/question/{questionId}/answer/create")
+    public ModelAndView answerCreateForm(@PathVariable("programId") Long programId, @PathVariable Long moduleId,@PathVariable Long questionId){
+        Program program = programService.findById(programId).get();
+        Module module = moduleService.findById(moduleId).get();
+        Question question = questionService.findById(questionId).get();
         ModelAndView modelAndView = new ModelAndView("questionbank/answer/answerCreate");
+        modelAndView.addObject("program",program);
+        modelAndView.addObject("module",module);
+        modelAndView.addObject("question",question);
         modelAndView.addObject("answerCreate",new Answer());
         return modelAndView;
     }
 
-    @PostMapping("/questionbank/program/module/question/{questionId}/answer/create")
-    public ModelAndView answerCreate(@ModelAttribute("answerCreate") Answer answer, @PathVariable Long questionId){
-        Optional<Question> question = questionService.findById(questionId);
-        if(question.isPresent()){
-            answer.setQuestion(question.get());
+    @PostMapping("/questionbank/program/{programId}/module/{moduleId}/question/{questionId}/answer/create")
+    public ModelAndView answerCreate(@ModelAttribute("answerCreate") Answer answer,@PathVariable("programId") Long programId, @PathVariable Long moduleId, @PathVariable Long questionId){
+        Program program = programService.findById(programId).get();
+        Module module = moduleService.findById(moduleId).get();
+        Question question = questionService.findById(questionId).get();
+        if(question != null){
+            answer.setQuestion(question);
         }
         answerService.save(answer);
         ModelAndView modelAndView = new ModelAndView("questionbank/answer/answerCreate");
         modelAndView.addObject("answerCreate",new Answer());
+        modelAndView.addObject("program",program);
+        modelAndView.addObject("module",module);
+        modelAndView.addObject("question",question);
         modelAndView.addObject("message", "answer create successfully");
         return modelAndView;
     }
 
-    @GetMapping("/questionbank/program/module/question/{questionId}/answer/edit/{id}")
-    public ModelAndView answerEditForm(@PathVariable Long questionId,@PathVariable Long id) {
+    @GetMapping("/questionbank/program/{programId}/module/{moduleId}/question/{questionId}/answer/edit/{id}")
+    public ModelAndView answerEditForm(@PathVariable("programId") Long programId, @PathVariable Long moduleId,@PathVariable Long questionId,@PathVariable Long id) {
+        Program program = programService.findById(programId).get();
+        Module module = moduleService.findById(moduleId).get();
+        Question question = questionService.findById(questionId).get();
         ModelAndView modelAndView = new ModelAndView("questionbank/answer/answerEdit");
         modelAndView.addObject("answerEdit",answerService.findById(id));
-        modelAndView.addObject("questionId",questionId);
+        modelAndView.addObject("program",program);
+        modelAndView.addObject("module",module);
+        modelAndView.addObject("question",question);
         return modelAndView;
     }
 
-    @PostMapping("/questionbank/program/module/question/{questionId}/answer/edit")
-    public ModelAndView answerEdit(@ModelAttribute("answerEdit") Answer answer, @PathVariable Long questionId) {
-        Optional<Question> question = questionService.findById(questionId);
-        if(question.isPresent()){
-            answer.setQuestion(question.get());
+    @PostMapping("/questionbank/program/{programId}/module/{moduleId}/question/{questionId}/answer/edit")
+    public ModelAndView answerEdit(@ModelAttribute("answerEdit") Answer answer,@PathVariable("programId") Long programId, @PathVariable Long moduleId, @PathVariable Long questionId) {
+        Program program = programService.findById(programId).get();
+        Module module = moduleService.findById(moduleId).get();
+        Question question = questionService.findById(questionId).get();
+        if(question != null) {
+            answer.setQuestion(question);
         }
         answerService.save(answer);
         ModelAndView modelAndView = new ModelAndView("questionbank/answer/answerEdit");
+        modelAndView.addObject("program",program);
+        modelAndView.addObject("module",module);
+        modelAndView.addObject("question",question);
         modelAndView.addObject("answerEdit", answer);
         modelAndView.addObject("message", "answer updated successfully");
         return modelAndView;
     }
 
-    @GetMapping("/questionbank/program/module/question/{questionId}/answer/delete/{id}")
-    public String answerDeleteForm(@PathVariable Long questionId,@PathVariable Long id) {
+    @GetMapping("/questionbank/program/{programId}/module/{moduleId}/question/{questionId}/answer/delete/{id}")
+    public String answerDeleteForm(@PathVariable("programId") Long programId, @PathVariable Long moduleId,@PathVariable Long questionId,@PathVariable Long id) {
         answerService.remove(id);
-        return "redirect:/admin/questionbank/program/module/question/{question}/answer";
+        return "redirect:/admin/questionbank/program/{programId}/module/{moduleId}/question/{questionId}/answer";
     }
 }
