@@ -16,7 +16,7 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false,length = 200)
+    @Column(nullable = false,unique = true,length = 200)
     @ValidEmail(message = "{user.register.error.invalidEmail}")
     private String email;
 
