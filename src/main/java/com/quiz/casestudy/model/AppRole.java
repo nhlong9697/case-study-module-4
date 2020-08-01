@@ -7,8 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
-@Table
 @Entity
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"authority"})})
 @Data
 public class AppRole implements GrantedAuthority {
     @Id

@@ -5,6 +5,7 @@ import com.quiz.casestudy.model.Module;
 import com.quiz.casestudy.model.Program;
 import com.quiz.casestudy.model.Question;
 import com.quiz.casestudy.service.answer.IAnswerService;
+import com.quiz.casestudy.service.classes.IClassesService;
 import com.quiz.casestudy.service.module.IModuleService;
 import com.quiz.casestudy.service.program.IProgramService;
 import com.quiz.casestudy.service.question.IQuestionService;
@@ -22,19 +23,12 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/admin/classmanagement")
 public class ClassManagementController {
     @Autowired
+    private IClassesService classesService;
+    @Autowired
     private IProgramService programService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private IModuleService moduleService;
-
-    @Autowired
-    private IQuestionService questionService;
-
-    @Autowired
-    private IAnswerService answerService;
 
     @Autowired
     private Environment environment;
@@ -44,10 +38,18 @@ public class ClassManagementController {
         return programService.findAll();
     }
 
-    @GetMapping("/class")
+    @GetMapping
     public ModelAndView classList() {
+        ModelAndView modelAndView = new ModelAndView("classmanagement/class/list");
+        Iterable<Classes> classList = classesService.findAll();
+        modelAndView.addObject("classList", classList);
+        return modelAndView;
+    }
+    @GetMapping("/class/create")
+    public ModelAndView createClassForm() {
         ModelAndView modelAndView = new ModelAndView("classmanagement/class/list");
         modelAndView.addObject("newClass", new Classes());
         return modelAndView;
     }
+
 }

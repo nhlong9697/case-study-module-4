@@ -20,5 +20,5 @@ public class Classes {
     private String name;
 
     @ManyToOne
-    private Program programId;
+    private Program program;
 }
