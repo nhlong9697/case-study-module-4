@@ -1,5 +1,6 @@
 package com.quiz.casestudy.model;
 
+import com.quiz.casestudy.validator.UniqueClassesName;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -16,6 +17,7 @@ public class Classes {
     private Long id;
 
     @NotEmpty(message = "{class.register.error.notEmpty}")
+    @UniqueClassesName(message = "{class.register.error.duplicateName}")
     @Column(nullable = false)
     private String name;
 

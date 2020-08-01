@@ -6,4 +6,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface IClassesRepository extends PagingAndSortingRepository<Classes,Long> {
     Iterable<Classes> findAllByProgram(Program program);
+    boolean existsByName(String name);
 }

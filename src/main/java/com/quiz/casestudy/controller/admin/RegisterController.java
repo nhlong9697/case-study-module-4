@@ -58,8 +58,7 @@ public class RegisterController {
        }
        appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
        userService.save(appUser);
-       modelAndView.addObject("success_message",
-               messageSource.getMessage("user.register.success",null,locale));
+       modelAndView.addObject("success_message","Register success");
        return modelAndView;
     }
 }

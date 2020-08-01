@@ -1,5 +1,6 @@
 package com.quiz.casestudy.service.student;
 
+import com.quiz.casestudy.model.Classes;
 import com.quiz.casestudy.model.Student;
 import com.quiz.casestudy.repository.IStudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,11 @@ public class StudentService implements IStudentService {
 
     @Override
     public void remove(Long id) {
+        studentRepository.deleteById(id);
+    }
 
+    @Override
+    public Iterable<Student> findAllByClasses(Classes classes) {
+        return studentRepository.findAllByClasses(classes);
     }
 }

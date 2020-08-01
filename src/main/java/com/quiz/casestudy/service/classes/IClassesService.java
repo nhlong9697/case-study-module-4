@@ -6,4 +6,5 @@ import com.quiz.casestudy.service.IService;
 
 public interface IClassesService extends IService<Classes> {
     Iterable<Classes> findByProgram(Program program);
+    boolean existsByName(String name);
 }
