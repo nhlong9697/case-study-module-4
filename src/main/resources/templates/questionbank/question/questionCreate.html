@@ -5,6 +5,7 @@
     <title>Create Question</title>
 </head>
 <body>
+<a th:href="@{/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question}">Back</a>
 <th:block th:if="${message}">
     <p th:text="${message}"></p>
 </th:block>

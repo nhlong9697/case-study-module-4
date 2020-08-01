@@ -5,9 +5,16 @@
     <title>Question List</title>
 </head>
 <body>
-<!--<a th:href="@{/admin/questionbank/program/__${programId}__/module}">Module list</a>-->
+<span>
+    <a th:href="@{/admin/questionbank/program}">
+        <span th:text="${program.name}"></span>
+    </a>/
+    <a th:href="@{/admin/questionbank/program/__${program.id}__/module}">
+        <span th:text="${module.name}"></span>
+    </a>
+</span>
 <h1>Question list:  <span th:text="${module.name}"></span></h1>
-<a th:href="@{/admin/questionbank/program/module/__${module.id}__/question/create}">Create new question</a>
+<a th:href="@{/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question/create}">Create new question</a>
 <table border="1">
     <tr>
         <th>Name</th>
@@ -16,10 +23,10 @@
         <th>Delete</th>
     </tr>
     <tr th:each="question : ${questionList}">
-        <td><a th:href="@{/admin/questionbank/program/module/question/__${question.id}__/answer}"><p th:text="${question.name}"></p></a></td>
+        <td><a th:href="@{/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question/__${question.id}__/answer}"><p th:text="${question.name}"></p></a></td>
         <td th:text="${question.type}"></td>
-        <td><a th:href="@{/admin/questionbank/program/module/__${module.id}__/question/edit/__${question.id}__ }">Edit</a></td>
-        <td><a th:href="@{/admin/questionbank/program/module/__${module.id}__/question/delete/__${question.id}__ }">Delete</a></td>
+        <td><a th:href="@{/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question/edit/__${question.id}__ }">Edit</a></td>
+        <td><a th:href="@{/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question/delete/__${question.id}__ }">Delete</a></td>
     </tr>
 </table>
 </body>

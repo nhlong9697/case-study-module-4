@@ -5,10 +5,11 @@
     <title>Answer Edit</title>
 </head>
 <body>
+<a th:href="@{/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question/__${question.id}__/answer}">Back</a>
 <th:block th:if="${message}">
     <p th:text="${message}"></p>
 </th:block>
-<form th:object="${answerEdit}" th:action="@{/admin/questionbank/program/module/question/__${questionId}__/answer/edit}" method="post" enctype="multipart/form-data">
+<form th:object="${answerEdit}" th:action="@{/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question/__${question.id}__/answer/edit}" method="post" enctype="multipart/form-data">
     <input th:type="hidden" name="id" th:field="*{id}">
     <table>
         <tr>
