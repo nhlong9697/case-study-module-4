@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Register student</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+    </script>
 </head>
 <body>
-<a href="/admin/studentmanagement/classes">Back</a>
+<a href="/admin/studentmanagement/student">Back to student list</a>
 <th:block th:if="${message}">
     <p th:text="${message}"></p>
 </th:block>
@@ -18,12 +22,30 @@
         <tr>
             <td>Email</td>
             <td><input type="text" th:field="*{appUser.email}"></td>
+            <div th:each="error: ${#fields.errors('appUser.email')}"
+                 th:text="${error}"></div>
         </tr>
         <tr>
             <td>Password</td>
             <td><input type="password" th:field="*{appUser.password}"></td>
-            <div th:each="error: ${#fields.errors('password')}"
+            <div th:each="error: ${#fields.errors('appUser.password')}"
                  th:text="${error}"></div>
+        </tr>
+        <tr>
+            <td>Program</td>
+            <td>
+                <select onchange="">
+                    <option th:each="program: ${programs}" th:value="${program.id}"
+                            th:text="${program.name}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Class</td>
+            <td>
+                <select th:field="*{classes}">
+                </select>
+            </td>
         </tr>
         <tr>
             <td>Image</td>

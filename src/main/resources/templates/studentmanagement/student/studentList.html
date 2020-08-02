@@ -9,16 +9,16 @@
     <a th:href="@{/admin/studentmanagement/classes}">
         <span th:text="Class List"></span>
     </a>/
-    <span th:text="${classes.name}"></span>
 </span>
-<h1>Student list:  <span th:text="${classes.name}"></span></h1>
+<h1>Student list</h1>
 <a
-        th:href="@{/admin/studentmanagement/classes/__${classes.id}__/create}">Create new student</a>
+        th:href="@{/admin/studentmanagement/student/create}">Create new student</a>
 <table border="1">
     <tr>
         <th>Name</th>
         <th>Image</th>
         <th>Classes</th>
+        <th>Program</th>
         <th>Email</th>
         <th>Edit</th>
         <th>Delete</th>
@@ -27,11 +27,12 @@
         <td th:value="${student.name}"></td>
         <td><img th:src="@{/__${student.avatar}__}"></td>
         <td th:value="${student.classes.name}"></td>
+        <td th:value="${student.classes.program.name}"></td>
         <td th:value="${student.appUser.email}"></td>
         <td><a
-                th:href="@{/admin/studentmanagement/classes/__${classes.id}__/student/edit/__${student.id}__}">Edit</a></td>
+                th:href="@{/admin/studentmanagement/student/edit/__${student.id}__}">Edit</a></td>
         <td><a
-                th:href="@{/admin/studentmanagement/classes/__${classes.id}__/student/delete/__${student.id}__}">Delete</a></td>
+                th:href="@{/admin/studentmanagement/student/delete/__${student.id}__}">Delete</a></td>
     </tr>
 </table>
 </body>

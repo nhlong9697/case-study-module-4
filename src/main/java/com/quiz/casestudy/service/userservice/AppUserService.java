@@ -27,7 +27,7 @@ public class AppUserService implements IAppUserService, UserDetailsService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public AppUser getUserByEmail(String username) {
+    public Optional<AppUser >getUserByEmail(String username) {
         return userRepository.findByEmail(username);
     }
 
@@ -36,8 +36,8 @@ public class AppUserService implements IAppUserService, UserDetailsService {
         return userRepository.existsByEmail(email);
     }
 
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AppUser appUser = this.getUserByEmail(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        AppUser appUser = this.getUserByEmail(email).get();
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(appUser.getRole());
 

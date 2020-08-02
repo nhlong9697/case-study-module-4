@@ -131,15 +131,7 @@ public class StudentManagementController {
     @PostMapping("/student/create")
     public ModelAndView createStudent(@ModelAttribute("newStudent") Student student){
         //save file to student
-        MultipartFile file = student.getImage();
-        String fileName = file.getOriginalFilename();
-        String fileUpload = environment.getProperty("upload.path");
-        student.setAvatar(fileName);
-        try {
-            FileCopyUtils.copy(file.getBytes(), new File(fileUpload + fileName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        uploadFile(student);
         student.getAppUser().setPassword(passwordEncoder.encode(student.getAppUser().getPassword()));
         studentService.save(student);
 
@@ -163,14 +155,20 @@ public class StudentManagementController {
         }
     }
 
-    @PostMapping("/classes/{classesId}/student/edit/{studentId}")
+    @PostMapping("/student/edit/{studentId}")
     public ModelAndView studentEdit(@ModelAttribute Student student,
                                    @PathVariable Long studentId, @PathVariable Long classesId) {
 
-        Classes classes = classesService.findById(classesId).get();
-        if (!classesService.findById(classesId).isPresent()) {
-            return new ModelAndView("error.404");
-        }
+        uploadFile(student);
+        studentService.save(student);
+
+        ModelAndView modelAndView = new ModelAndView("/studentmanagement/student/studentEdit");
+        modelAndView.addObject("studentEdit", student);
+        modelAndView.addObject("message", "student updated successfully");
+        return modelAndView;
+    }
+
+    private void uploadFile(@ModelAttribute Student student) {
         MultipartFile file = student.getImage();
         String fileName = file.getOriginalFilename();
         String fileUpload = environment.getProperty("upload.path");
@@ -180,18 +178,11 @@ public class StudentManagementController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        studentService.save(student);
-
-        ModelAndView modelAndView = new ModelAndView("/studentmanagement/student/studentEdit");
-        modelAndView.addObject("studentEdit", student);
-        modelAndView.addObject("classes",classes);
-        modelAndView.addObject("message", "student updated successfully");
-        return modelAndView;
     }
 
-    @GetMapping("/classes/{classesId}/student/delete/{studentId}")
-    public String moduleDeleteForm(@PathVariable Long classesId,@PathVariable Long studentId) {
+    @GetMapping("/student/delete/{studentId}")
+    public String moduleDeleteForm(@PathVariable Long studentId) {
         studentService.remove(studentId);
-        return "redirect:/admin/questionbank/program/{programId}/module";
+        return "redirect:/admin/studentmanagement/student";
     }
 }
