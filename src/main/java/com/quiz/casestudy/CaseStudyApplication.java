@@ -14,10 +14,16 @@ public class CaseStudyApplication {
     private IAppRoleService appRoleService;
 
     @PostConstruct
-    public void setRol(){
-        appRoleService.save(new AppRole("ROLE_ADMIN"));
-        appRoleService.save(new AppRole("ROLE_STAFF"));
-        appRoleService.save(new AppRole("ROLE_STUDENT"));
+    public void setRole(){
+        if (!appRoleService.findAppRoleByAuthority("ROLE_ADMIN").isPresent()) {
+            appRoleService.save(new AppRole("ROLE_ADMIN"));
+        }
+        if (!appRoleService.findAppRoleByAuthority("ROLE_STAFF").isPresent()) {
+            appRoleService.save(new AppRole("ROLE_STAFF"));
+        }
+        if (!appRoleService.findAppRoleByAuthority("ROLE_STUDENT").isPresent()) {
+            appRoleService.save(new AppRole("ROLE_STUDENT"));
+        }
     }
 
     public static void main(String[] args) {

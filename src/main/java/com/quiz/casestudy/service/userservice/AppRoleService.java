@@ -31,4 +31,9 @@ public class AppRoleService implements IAppRoleService{
     public void remove(Long id) {
         appRoleRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<AppRole> findAppRoleByAuthority(String authority) {
+       return appRoleRepository.findAppRoleByAuthority(authority);
+    }
 }
