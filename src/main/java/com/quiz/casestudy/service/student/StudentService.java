@@ -2,8 +2,11 @@ package com.quiz.casestudy.service.student;
 
 import com.quiz.casestudy.model.Classes;
 import com.quiz.casestudy.model.Student;
+import com.quiz.casestudy.repository.IAppRoleRepository;
 import com.quiz.casestudy.repository.IStudentRepository;
+import com.quiz.casestudy.service.userservice.IAppRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,6 +15,10 @@ import java.util.Optional;
 public class StudentService implements IStudentService {
     @Autowired
     private IStudentRepository studentRepository;
+    @Autowired
+    private IAppRoleRepository appRoleRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Iterable<Student> findAll() {
@@ -25,6 +32,8 @@ public class StudentService implements IStudentService {
 
     @Override
     public Student save(Student student) {
+        student.getAppUser().setRole(appRoleRepository.findAppRoleByAuthority("ROLE_USER"));
+        student.getAppUser().setPassword(passwordEncoder.encode(student.getAppUser().getPassword()));
         return studentRepository.save(student);
     }
 

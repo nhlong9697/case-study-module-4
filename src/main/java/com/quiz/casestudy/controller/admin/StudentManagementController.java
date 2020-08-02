@@ -7,14 +7,19 @@ import com.quiz.casestudy.model.Student;
 import com.quiz.casestudy.service.classes.IClassesService;
 import com.quiz.casestudy.service.program.IProgramService;
 import com.quiz.casestudy.service.student.IStudentService;
+import com.quiz.casestudy.service.userservice.IAppRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -23,8 +28,10 @@ import java.util.Optional;
 public class StudentManagementController {
     @Autowired
     private IClassesService classesService;
+
     @Autowired
     private IProgramService programService;
+
     @Autowired
     private IStudentService studentService;
 
@@ -36,6 +43,9 @@ public class StudentManagementController {
 
     @Autowired
     private MessageSource messageSource;
+
+    @Autowired
+    private IAppRoleService appRoleService;
 
     @ModelAttribute("programs")
     public Iterable<Program> programs(){
@@ -94,47 +104,65 @@ public class StudentManagementController {
     }
 
     @GetMapping("/classes/{classesId}/student")
-    public ModelAndView moduleList(@PathVariable("classesId") Long classesId){
+    public ModelAndView moduleList(@PathVariable Long classesId){
         Classes classes = classesService.findById(classesId).get();
         if (classes == null){
             return new ModelAndView("/error.404");
         }
-        Iterable<Student> students = studentService.findAllByClasses(classes);
-        ModelAndView modelAndView = new ModelAndView("/studentmanagement/module/moduleList");
-        modelAndView.addObject("moduleList",modules);
-        modelAndView.addObject("program",program);
+        Iterable<Student> studentList = studentService.findAllByClasses(classes);
+        ModelAndView modelAndView = new ModelAndView("/studentmanagement/student/studentList");
+        modelAndView.addObject("studentList",studentList);
+        modelAndView.addObject("classes",classes);
         return modelAndView;
     }
 
-    @GetMapping("/questionbank/program/{programId}/module/create")
-    public ModelAndView moduleCreateForm(@PathVariable Long programId){
-        Program program = programService.findById(programId).get();
-        ModelAndView modelAndView = new ModelAndView("questionbank/module/moduleCreate");
-        modelAndView.addObject("moduleCreate",new Module());
-        modelAndView.addObject("program",program);
+    @GetMapping("/classes/{classesId}/create")
+    public ModelAndView moduleCreateForm(@PathVariable Long classesId){
+        Classes classes = classesService.findById(classesId).get();
+        ModelAndView modelAndView = new ModelAndView("/studentmanagement/student/studentCreate");
+        modelAndView.addObject("classes",classes);
+        modelAndView.addObject("newStudent",new Student());
         return modelAndView;
     }
 
-    @PostMapping("/questionbank/program/{programId}/module/create")
-    public ModelAndView moduleCreate(@ModelAttribute("moduleCreate") Module module, @PathVariable Long programId){
-        Program program = programService.findById(programId).get();
-        if(program != null){
-            module.setProgram(program);
+    @PostMapping("/classes/{classesId}/module/create")
+    public ModelAndView createStudent(@ModelAttribute("newStudent") Student student,
+                                     @PathVariable Long classesId){
+        //save file to student
+        MultipartFile file = student.getImage();
+        String fileName = file.getOriginalFilename();
+        String fileUpload = environment.getProperty("upload.path");
+        Classes classes = classesService.findById(classesId).get();
+        student.setAvatar(fileName);
+        try {
+            FileCopyUtils.copy(file.getBytes(), new File(fileUpload + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        moduleService.save(module);
+
+        //save class to student
+        if(classes != null){
+            student.setClasses(classes);
+        }
+
+        studentService.save(student);
+
         ModelAndView modelAndView = new ModelAndView("questionbank/module/moduleCreate");
-        modelAndView.addObject("moduleCreate",new Module());
-        modelAndView.addObject("program",program);
-        modelAndView.addObject("message", "Module create successfully");
+
+        modelAndView.addObject("moduleCreate",new Student());
+        modelAndView.addObject("classes",classes);
+        modelAndView.addObject("message", "Student create successfully");
+
         return modelAndView;
     }
-    @GetMapping("/questionbank/program/{programId}/module/edit/{id}")
-    public ModelAndView moduleEditForm(@PathVariable Long programId, @PathVariable Long id) {
-        Program program = programService.findById(programId).get();
-        ModelAndView modelAndView = new ModelAndView("/questionbank/module/moduleEdit");
-        modelAndView.addObject("program",program);
-        modelAndView.addObject("moduleEdit",moduleService.findById(id));
-        modelAndView.addObject("programId",programId);
+
+    @GetMapping("/classes/{classesId}/module/edit/{studentId}")
+    public ModelAndView studentEditForm(@PathVariable Long classesId,
+                                        @PathVariable Long studentId) {
+        Classes classes = classesService.findById(classesId).get();
+        ModelAndView modelAndView = new ModelAndView("/studentmanagement/classes/classesEdit");
+        modelAndView.addObject("classes",classes);
+        modelAndView.addObject("studentEdit",studentService.findById(studentId));
         return modelAndView;
     }
 

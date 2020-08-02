@@ -56,7 +56,6 @@ public class RegisterController {
                    messageSource.getMessage("user.register.error.duplicateEmail",null, locale) + appUser.getEmail());
            return modelAndView;
        }
-       appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
        userService.save(appUser);
        modelAndView.addObject("success_message","Register success");
        return modelAndView;
