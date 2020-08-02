@@ -4,6 +4,8 @@ import com.quiz.casestudy.model.Module;
 import com.quiz.casestudy.model.Question;
 import com.quiz.casestudy.repository.IQuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -34,7 +36,13 @@ public class QuestionService implements IQuestionService {
     }
 
     @Override
-    public Iterable<Question> findAllByModule(Module module) {
-        return questionRepository.findAllByModule(module);
+    public Page<Question> findAllByModule(Module module,Pageable pageable) {
+        return questionRepository.findAllByModule(module, pageable);
     }
+
+    @Override
+    public Page<Question> findAllByNameContaining(String name, Pageable pageable) {
+        return questionRepository.findAllByNameContaining(name, pageable);
+    }
+
 }

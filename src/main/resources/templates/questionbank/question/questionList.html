@@ -5,6 +5,11 @@
     <title>Question List</title>
 </head>
 <body>
+<form>
+    Search by name question:
+    <input name="s" type="text"/>
+    <input type="submit" value="Search"/>
+</form><br/>
 <span>
     <a th:href="@{/admin/questionbank/program}">
         <span th:text="${program.name}"></span>
@@ -29,5 +34,10 @@
         <td><a th:href="@{/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question/delete/__${question.id}__ }">Delete</a></td>
     </tr>
 </table>
+<div>
+    <a th:href="@{'/admin/questionbank/program/__${program.id}__/module/__${module.id}__/questions'(s=${s},page=${questions.number - 1})}" th:if="${questions.hasPrevious()}">Previous</a>
+    <span th:text="${questions.number + 1}"></span>/<span th:text="${questions.totalPages}"></span>
+    <a th:href="@{'/admin/questionbank/program/__${program.id}__/module/__${module.id}__/questions'(s=${s},page=${questions.number + 1})}" th:if="${questions.hasNext()}">Next</a>
+</div>
 </body>
 </html>

@@ -10,6 +10,10 @@ import com.quiz.casestudy.service.program.IProgramService;
 import com.quiz.casestudy.service.question.IQuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
@@ -175,14 +179,20 @@ public class QuestionBankController {
     }
 
     @GetMapping("/questionbank/program/{programId}/module/{id}/question")
-    public ModelAndView questionList(@PathVariable("programId") Long programId , @PathVariable("id") Long id){
+    public ModelAndView questionList(@RequestParam("s")Optional<String>s,
+            @PageableDefault(size = 6, direction = Sort.Direction.ASC, sort = "id") Pageable pageable,
+            @PathVariable("programId") Long programId , @PathVariable("id") Long id){
+        Page<Question> questions;
         Module module = moduleService.findById(id).get();
         Program program = programService.findById(programId).get();
+        ModelAndView modelAndView = new ModelAndView("questionbank/question/questionList");
         if (module == null){
             return new ModelAndView("/error.404");
+        }else if (s.isPresent()) {
+            questions = questionService.findAllByNameContaining(s.get(), pageable);
+            modelAndView.addObject("s", s.get());
         }
-        Iterable<Question> questions = questionService.findAllByModule(module);
-        ModelAndView modelAndView = new ModelAndView("/questionbank/question/questionList");
+        questions = questionService.findAllByModule(module,pageable);
         modelAndView.addObject("module",module);
         modelAndView.addObject("questionList",questions);
         modelAndView.addObject("program",program);

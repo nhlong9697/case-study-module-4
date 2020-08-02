@@ -3,8 +3,11 @@ package com.quiz.casestudy.repository;
 import com.quiz.casestudy.model.Module;
 import com.quiz.casestudy.model.Program;
 import com.quiz.casestudy.model.Question;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IQuestionRepository extends JpaRepository<Question, Long> {
-    Iterable<Question> findAllByModule(Module module);
+    Page<Question> findAllByModule(Module module, Pageable pageble);
+    Page<Question> findAllByNameContaining(String name, Pageable pageble);
 }
