@@ -1,6 +1,7 @@
 package com.quiz.casestudy.model;
 
 
+import com.quiz.casestudy.validator.UniqueEmail;
 import com.quiz.casestudy.validator.ValidEmail;
 import com.quiz.casestudy.validator.ValidPassword;
 import lombok.Data;
@@ -18,6 +19,7 @@ public class AppUser {
 
     @Column(nullable = false,unique = true,length = 200)
     @ValidEmail(message = "{user.register.error.invalidEmail}")
+    @UniqueEmail(message = "{user.register.error.duplicateEmail}")
     private String email;
 
     @Column(nullable = false)

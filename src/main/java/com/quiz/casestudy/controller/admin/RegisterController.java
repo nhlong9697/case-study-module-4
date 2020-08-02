@@ -4,7 +4,6 @@ import com.quiz.casestudy.model.AppRole;
 import com.quiz.casestudy.model.AppUser;
 import com.quiz.casestudy.service.userservice.IAppRoleService;
 import com.quiz.casestudy.service.userservice.IAppUserService;
-import com.quiz.casestudy.service.userservice.exception.UserAlreadyExistException;
 import org.hibernate.jpa.internal.util.PersistenceUtilHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -51,11 +50,8 @@ public class RegisterController {
 
        if (bindingResult.hasFieldErrors()) {
            return modelAndView;
-       } else if (userService.getUserByEmail(appUser.getEmail()) != null) {
-           modelAndView.addObject("duplicate_message",
-                   messageSource.getMessage("user.register.error.duplicateEmail",null, locale) + appUser.getEmail());
-           return modelAndView;
        }
+       appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
        userService.save(appUser);
        modelAndView.addObject("success_message","Register success");
        return modelAndView;

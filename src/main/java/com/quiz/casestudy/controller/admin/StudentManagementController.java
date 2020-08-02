@@ -11,6 +11,8 @@ import com.quiz.casestudy.service.userservice.IAppRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
@@ -51,6 +53,10 @@ public class StudentManagementController {
     public Iterable<Program> programs(){
         return programService.findAll();
     }
+    @ModelAttribute("classesList")
+    public Iterable<Classes> classes() {
+        return classesService.findAll();
+    }
 
     @GetMapping("/classes")
     public ModelAndView classList() {
@@ -69,10 +75,10 @@ public class StudentManagementController {
 
     @PostMapping("/classes/create")
     public ModelAndView classesCreate(@ModelAttribute Classes classes) {
-        ModelAndView modelAndView = new ModelAndView("studentmanagement/classes/classesCreate");
         classesService.save(classes);
+        ModelAndView modelAndView = new ModelAndView("studentmanagement/classes/classesCreate");
         modelAndView.addObject("classes", new Classes());
-        modelAndView.addObject("success", "Success register");
+        modelAndView.addObject("success", "New class created");
         return modelAndView;
     }
     @GetMapping("/classes/edit/{id}")
@@ -103,86 +109,89 @@ public class StudentManagementController {
         return "redirect:admin/studentmanagement/classes";
     }
 
-    @GetMapping("/classes/{classesId}/student")
-    public ModelAndView moduleList(@PathVariable Long classesId){
-        Classes classes = classesService.findById(classesId).get();
-        if (classes == null){
-            return new ModelAndView("/error.404");
-        }
-        Iterable<Student> studentList = studentService.findAllByClasses(classes);
+    @GetMapping("/student")
+    public ModelAndView studentList(){
+        Iterable<Student> studentList = studentService.findAll();
         ModelAndView modelAndView = new ModelAndView("/studentmanagement/student/studentList");
         modelAndView.addObject("studentList",studentList);
-        modelAndView.addObject("classes",classes);
         return modelAndView;
     }
 
-    @GetMapping("/classes/{classesId}/create")
-    public ModelAndView moduleCreateForm(@PathVariable Long classesId){
-        Classes classes = classesService.findById(classesId).get();
+    @GetMapping("/student/create")
+    public ModelAndView showCreateStudentForm(){
         ModelAndView modelAndView = new ModelAndView("/studentmanagement/student/studentCreate");
-        modelAndView.addObject("classes",classes);
         modelAndView.addObject("newStudent",new Student());
         return modelAndView;
     }
+    @GetMapping("/getClassesByProgram")
+    public ResponseEntity<Iterable<Classes>> getClassesByProgram(@RequestBody Program program) {
+        return new ResponseEntity<>(classesService.findByProgram(program), HttpStatus.OK);
+    }
 
-    @PostMapping("/classes/{classesId}/module/create")
-    public ModelAndView createStudent(@ModelAttribute("newStudent") Student student,
-                                     @PathVariable Long classesId){
+    @PostMapping("/student/create")
+    public ModelAndView createStudent(@ModelAttribute("newStudent") Student student){
         //save file to student
         MultipartFile file = student.getImage();
         String fileName = file.getOriginalFilename();
         String fileUpload = environment.getProperty("upload.path");
-        Classes classes = classesService.findById(classesId).get();
         student.setAvatar(fileName);
         try {
             FileCopyUtils.copy(file.getBytes(), new File(fileUpload + fileName));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        //save class to student
-        if(classes != null){
-            student.setClasses(classes);
-        }
-
+        student.getAppUser().setPassword(passwordEncoder.encode(student.getAppUser().getPassword()));
         studentService.save(student);
 
-        ModelAndView modelAndView = new ModelAndView("questionbank/module/moduleCreate");
+        ModelAndView modelAndView = new ModelAndView("/studentmanagement/student/studentCreate");
 
-        modelAndView.addObject("moduleCreate",new Student());
-        modelAndView.addObject("classes",classes);
+        modelAndView.addObject("newStudent",new Student());
         modelAndView.addObject("message", "Student create successfully");
 
         return modelAndView;
     }
 
-    @GetMapping("/classes/{classesId}/module/edit/{studentId}")
-    public ModelAndView studentEditForm(@PathVariable Long classesId,
-                                        @PathVariable Long studentId) {
-        Classes classes = classesService.findById(classesId).get();
-        ModelAndView modelAndView = new ModelAndView("/studentmanagement/classes/classesEdit");
-        modelAndView.addObject("classes",classes);
-        modelAndView.addObject("studentEdit",studentService.findById(studentId));
-        return modelAndView;
-    }
-
-    @PostMapping("/questionbank/program/{programId}/module/edit")
-    public ModelAndView moduleEdit(@ModelAttribute("moduleEdit") Module module,@PathVariable Long programId) {
-        Program program = programService.findById(programId).get();
-        if(program != null){
-            module.setProgram(program);
+    @GetMapping("/student/edit/{studentId}")
+    public ModelAndView studentEditForm(@PathVariable Long studentId) {
+        Optional<Student> student = studentService.findById(studentId);
+        if (student.isPresent()) {
+            ModelAndView modelAndView = new ModelAndView("/studentmanagement/student/studentEdit");
+            modelAndView.addObject("student",student);
+            return modelAndView;
+        } else {
+            return new ModelAndView("error.404");
         }
-        moduleService.save(module);
-        ModelAndView modelAndView = new ModelAndView("/questionbank/module/moduleEdit");
-        modelAndView.addObject("moduleEdit", module);
-        modelAndView.addObject("program",program);
-        modelAndView.addObject("message", "Module updated successfully");
+    }
+
+    @PostMapping("/classes/{classesId}/student/edit/{studentId}")
+    public ModelAndView studentEdit(@ModelAttribute Student student,
+                                   @PathVariable Long studentId, @PathVariable Long classesId) {
+
+        Classes classes = classesService.findById(classesId).get();
+        if (!classesService.findById(classesId).isPresent()) {
+            return new ModelAndView("error.404");
+        }
+        MultipartFile file = student.getImage();
+        String fileName = file.getOriginalFilename();
+        String fileUpload = environment.getProperty("upload.path");
+        student.setAvatar(fileName);
+        try {
+            FileCopyUtils.copy(file.getBytes(), new File(fileUpload + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        studentService.save(student);
+
+        ModelAndView modelAndView = new ModelAndView("/studentmanagement/student/studentEdit");
+        modelAndView.addObject("studentEdit", student);
+        modelAndView.addObject("classes",classes);
+        modelAndView.addObject("message", "student updated successfully");
         return modelAndView;
     }
 
-    @GetMapping("/questionbank/program/{programId}/module/delete/{id}")
-    public String moduleDeleteForm(@PathVariable Long programId,@PathVariable Long id) {
-        moduleService.remove(id);
+    @GetMapping("/classes/{classesId}/student/delete/{studentId}")
+    public String moduleDeleteForm(@PathVariable Long classesId,@PathVariable Long studentId) {
+        studentService.remove(studentId);
         return "redirect:/admin/questionbank/program/{programId}/module";
     }
 }
