@@ -10,14 +10,14 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
+@Table
 @Data
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false,unique = true,length = 200)
+    @Column(nullable = false,length = 200)
     @ValidEmail(message = "{user.register.error.invalidEmail}")
     @UniqueEmail(message = "{user.register.error.duplicateEmail}")
     private String email;

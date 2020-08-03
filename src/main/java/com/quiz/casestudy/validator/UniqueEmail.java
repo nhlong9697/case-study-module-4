@@ -1,6 +1,5 @@
 package com.quiz.casestudy.validator;
 
-
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.Documented;

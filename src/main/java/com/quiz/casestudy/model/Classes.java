@@ -13,12 +13,12 @@ import javax.validation.constraints.NotEmpty;
 @Data
 public class Classes {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "{class.register.error.notEmpty}")
-    @UniqueClassesName(message = "{class.register.error.duplicateName}")
     @Column(nullable = false)
+    @NotEmpty(message = "{class.register.error.notEmpty}")
+    @UniqueClassesName(message = "{classes.register.error.duplicateClasses}")
     private String name;
 
     @ManyToOne

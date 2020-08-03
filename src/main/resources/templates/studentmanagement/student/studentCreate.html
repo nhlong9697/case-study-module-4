@@ -6,26 +6,29 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#programList').onchange(function (event) {
+            $('#programList').click(function (event) {
                 let program = $('#programList').val();
-                let json = {"program":program}
+                let json = {
+                    id:program
+                }
                 $.ajax({
                     headers: {
                         'Accept':'application/json',
                         'Content-Type':'application/json'
                     },
-                    type:"GET",
+                    type:"POST",
                     data: JSON.stringify(json),
-                    url: "/getClassesByProgram",
+                    url: "/admin/studentmanagement/getClassesByProgram",
                     success: (classes) => {
                         let content = '';
                         for (let i = 0; i < classes.length; i++) {
                             content +=
-                                `<option th:value="${classes[i].id}" th:text="${classes[i].name}">`
+                                `<option value="${classes[i].id}">${classes[i].name}</option>`
                         }
                         document.getElementById('classesList').innerHTML=content;
                     }
                 })
+                event.preventDefault();
             })
         })
     </script>

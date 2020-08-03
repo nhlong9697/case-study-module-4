@@ -2,17 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Question List</title>
+    <title>Student list</title>
 </head>
 <body>
-<span>
-    <a th:href="@{/admin/studentmanagement/classes}">
-        <span th:text="Class List"></span>
-    </a>/
-</span>
 <h1>Student list</h1>
-<a
-        th:href="@{/admin/studentmanagement/student/create}">Create new student</a>
+<a th:href="@{/admin/studentmanagement/student/create}">Create new student</a>
 <table border="1">
     <tr>
         <th>Name</th>
@@ -24,11 +18,11 @@
         <th>Delete</th>
     </tr>
     <tr th:each="student : ${studentList}">
-        <td th:value="${student.name}"></td>
+        <td th:text="${student.name}"></td>
         <td><img th:src="@{/__${student.avatar}__}"></td>
-        <td th:value="${student.classes.name}"></td>
-        <td th:value="${student.classes.program.name}"></td>
-        <td th:value="${student.appUser.email}"></td>
+        <td th:text="${student.classes.name}"></td>
+        <td th:text="${student.classes.program.name}"></td>
+        <td th:text="${student.appUser.email}"></td>
         <td><a
                 th:href="@{/admin/studentmanagement/student/edit/__${student.id}__}">Edit</a></td>
         <td><a

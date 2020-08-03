@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -74,9 +76,13 @@ public class StudentManagementController {
     }
 
     @PostMapping("/classes/create")
-    public ModelAndView classesCreate(@ModelAttribute Classes classes) {
-        classesService.save(classes);
+    public ModelAndView classesCreate(@ModelAttribute("newClass") @Validated Classes classes,
+                                      BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("studentmanagement/classes/classesCreate");
+        if (bindingResult.hasFieldErrors()) {
+            return modelAndView;
+        }
+        classesService.save(classes);
         modelAndView.addObject("classes", new Classes());
         modelAndView.addObject("success", "New class created");
         return modelAndView;
@@ -106,36 +112,40 @@ public class StudentManagementController {
     @GetMapping("/classes/delete/{classesId}")
     public String deleteClasses(@PathVariable Long classesId){
         classesService.remove(classesId);
-        return "redirect:admin/studentmanagement/classes";
+        return "redirect:/admin/studentmanagement/classes";
     }
 
     @GetMapping("/student")
     public ModelAndView studentList(){
         Iterable<Student> studentList = studentService.findAll();
-        ModelAndView modelAndView = new ModelAndView("/studentmanagement/student/studentList");
+        ModelAndView modelAndView = new ModelAndView("studentmanagement/student/studentList");
         modelAndView.addObject("studentList",studentList);
         return modelAndView;
     }
-
     @GetMapping("/student/create")
     public ModelAndView showCreateStudentForm(){
-        ModelAndView modelAndView = new ModelAndView("/studentmanagement/student/studentCreate");
+        ModelAndView modelAndView = new ModelAndView("studentmanagement/student/studentCreate");
         modelAndView.addObject("newStudent",new Student());
         return modelAndView;
     }
-    @GetMapping("/getClassesByProgram")
+    @PostMapping("/getClassesByProgram")
     public ResponseEntity<Iterable<Classes>> getClassesByProgram(@RequestBody Program program) {
         return new ResponseEntity<>(classesService.findByProgram(program), HttpStatus.OK);
     }
 
     @PostMapping("/student/create")
-    public ModelAndView createStudent(@ModelAttribute("newStudent") Student student){
+    public ModelAndView createStudent(@ModelAttribute("newStudent") @Validated Student student,
+                                      BindingResult bindingResult){
         //save file to student
+
+        ModelAndView modelAndView = new ModelAndView("studentmanagement/student/studentCreate");
+        if (bindingResult.hasFieldErrors()) {
+            return modelAndView;
+        }
         uploadFile(student);
         student.getAppUser().setPassword(passwordEncoder.encode(student.getAppUser().getPassword()));
         studentService.save(student);
 
-        ModelAndView modelAndView = new ModelAndView("/studentmanagement/student/studentCreate");
 
         modelAndView.addObject("newStudent",new Student());
         modelAndView.addObject("message", "Student create successfully");
@@ -157,7 +167,7 @@ public class StudentManagementController {
 
     @PostMapping("/student/edit/{studentId}")
     public ModelAndView studentEdit(@ModelAttribute Student student,
-                                   @PathVariable Long studentId, @PathVariable Long classesId) {
+                                   @PathVariable Long studentId) {
 
         uploadFile(student);
         studentService.save(student);

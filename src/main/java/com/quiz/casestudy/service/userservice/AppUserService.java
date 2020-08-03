@@ -33,7 +33,8 @@ public class AppUserService implements IAppUserService, UserDetailsService {
 
     @Override
     public boolean existByEmail(String email) {
-        return userRepository.existsByEmail(email);
+        boolean exist = userRepository.existsByEmail(email);
+        return exist;
     }
 
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

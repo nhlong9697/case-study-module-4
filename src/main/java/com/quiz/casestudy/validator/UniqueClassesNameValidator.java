@@ -12,9 +12,8 @@ public class UniqueClassesNameValidator implements ConstraintValidator<UniqueCla
     @Override
     public void initialize(UniqueClassesName constraintAnnotation) {
     }
-
     @Override
     public boolean isValid(String name, ConstraintValidatorContext context) {
-        return classesService != null && classesService.existsByName(name);
+        return classesService == null || !classesService.existsByName(name);
     }
 }
