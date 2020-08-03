@@ -71,7 +71,7 @@ public class QuestionBankController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/questionbank/program/create", method = RequestMethod.POST)
+    @PostMapping("/questionbank/program/create")
     public ModelAndView programCreate(@ModelAttribute Program program){
         MultipartFile file = program.getImage();
         String fileName = file.getOriginalFilename();
