@@ -71,7 +71,7 @@ public class QuestionBankController {
         return modelAndView;
     }
 
-    @PostMapping("/questionbank/program/create")
+    @RequestMapping(value = "/questionbank/program/create", method = RequestMethod.POST)
     public ModelAndView programCreate(@ModelAttribute Program program){
         MultipartFile file = program.getImage();
         String fileName = file.getOriginalFilename();
@@ -188,11 +188,13 @@ public class QuestionBankController {
         ModelAndView modelAndView = new ModelAndView("questionbank/question/questionList");
         if (module == null){
             return new ModelAndView("/error.404");
-        }else if (s.isPresent()) {
+        }else{
+            questions = questionService.findAllByModule(module,pageable);
+        }
+        if (s.isPresent()) {
             questions = questionService.findAllByNameContaining(s.get(), pageable);
             modelAndView.addObject("s", s.get());
         }
-        questions = questionService.findAllByModule(module,pageable);
         modelAndView.addObject("module",module);
         modelAndView.addObject("questionList",questions);
         modelAndView.addObject("program",program);
