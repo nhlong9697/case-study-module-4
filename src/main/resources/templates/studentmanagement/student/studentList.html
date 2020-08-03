@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student list</title>
+</head>
+<body>
+<h1>Student list</h1>
+<a th:href="@{/admin/studentmanagement/student/create}">Create new student</a>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Image</th>
+        <th>Classes</th>
+        <th>Program</th>
+        <th>Email</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <tr th:each="student : ${studentList}">
+        <td th:text="${student.name}"></td>
+        <td><img th:src="@{/__${student.avatar}__}"></td>
+        <td th:text="${student.classes.name}"></td>
+        <td th:text="${student.classes.program.name}"></td>
+        <td th:text="${student.appUser.email}"></td>
+        <td><a
+                th:href="@{/admin/studentmanagement/student/edit/__${student.id}__}">Edit</a></td>
+        <td><a
+                th:href="@{/admin/studentmanagement/student/delete/__${student.id}__}">Delete</a></td>
+    </tr>
+</table>
+</body>
+</html>

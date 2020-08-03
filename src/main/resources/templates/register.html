@@ -9,7 +9,7 @@
 <div sec:authorize="isAuthenticated()">
     <span sec:authentication="principal.username"></span>, <a href="/logout">logout</a>.
 </div>
-<span th:if="${success_message}" th:text="${success_message}"></span>
+<span th:if="${success_message}" th:text="#{user.register.success}"></span>
 <form action="/register" method="post" th:object="${user}">
     <table>
         <tr>

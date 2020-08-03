@@ -5,10 +5,12 @@ import com.quiz.casestudy.model.Question;
 import com.quiz.casestudy.repository.IQuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
+@Transactional
 public class QuestionService implements IQuestionService {
     @Autowired
     private IQuestionRepository questionRepository;

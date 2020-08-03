@@ -18,7 +18,7 @@ public class Student {
     private String name;
 
     @ManyToOne
-    private Classes classId;
+    private Classes classes;
 
     private String avatar;
 
@@ -32,13 +32,17 @@ public class Student {
     public Student() {
     }
 
-    public Student(String name, MultipartFile multipartFile) {
+    public Student(String name, Classes classes, AppUser appUser, MultipartFile multipartFile) {
         this.name = name;
+        this.classes=classes;
+        this.appUser=appUser;
         this.image = multipartFile;
     }
 
-    public Student(String name, String avatar) {
+    public Student(String name,Classes classes, AppUser appUser, String avatar) {
         this.name = name;
+        this.classes=classes;
+        this.appUser=appUser;
         this.avatar = avatar;
     }
 

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register student</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#programList').click(function (event) {
+                let program = $('#programList').val();
+                let json = {
+                    id:program
+                }
+                $.ajax({
+                    headers: {
+                        'Accept':'application/json',
+                        'Content-Type':'application/json'
+                    },
+                    type:"POST",
+                    data: JSON.stringify(json),
+                    url: "/admin/studentmanagement/getClassesByProgram",
+                    success: (classes) => {
+                        let content = '';
+                        for (let i = 0; i < classes.length; i++) {
+                            content +=
+                                `<option value="${classes[i].id}">${classes[i].name}</option>`
+                        }
+                        document.getElementById('classesList').innerHTML=content;
+                    }
+                })
+                event.preventDefault();
+            })
+        })
+    </script>
+</head>
+<body>
+<a href="/admin/studentmanagement/student">Back to student list</a>
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+<form th:object="${newStudent}" method="post" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td>Name</td>
+            <td><input type="text" th:field="*{name}"></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input type="text" th:field="*{appUser.email}"></td>
+            <div th:each="error: ${#fields.errors('appUser.email')}"
+                 th:text="${error}"></div>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input type="password" th:field="*{appUser.password}"></td>
+            <div th:each="error: ${#fields.errors('appUser.password')}"
+                 th:text="${error}"></div>
+        </tr>
+        <tr>
+            <td>Program</td>
+            <td>
+                <select id="programList">
+                    <option th:each="program: ${programs}" th:value="${program.id}"
+                            th:text="${program.name}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Class</td>
+            <td>
+                <select id="classesList" th:field="*{classes}">
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Image</td>
+            <td><input type="file" th:field="*{image}"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="tao moi"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

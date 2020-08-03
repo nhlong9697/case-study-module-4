@@ -39,6 +39,8 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     runtimeOnly 'mysql:mysql-connector-java'
     runtimeOnly 'org.postgresql:postgresql'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.11.1'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.1'
 }
 
 test {

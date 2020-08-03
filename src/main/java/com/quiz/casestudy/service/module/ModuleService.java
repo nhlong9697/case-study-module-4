@@ -5,10 +5,12 @@ import com.quiz.casestudy.model.Program;
 import com.quiz.casestudy.repository.IModuleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ModuleService implements IModuleService {
     @Autowired
     private IModuleRepository moduleRepository;

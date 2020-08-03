@@ -33,7 +33,7 @@ public class AppRoleService implements IAppRoleService{
     }
 
     @Override
-    public Optional<AppRole> findAppRoleByAuthority(String authority) {
+    public Optional<AppRole >findAppRoleByAuthority(String authority) {
        return appRoleRepository.findAppRoleByAuthority(authority);
     }
 }

@@ -2,13 +2,16 @@ package com.quiz.casestudy.service.classes;
 
 import com.quiz.casestudy.model.Classes;
 import com.quiz.casestudy.model.Program;
+import com.quiz.casestudy.model.Student;
 import com.quiz.casestudy.repository.IClassesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ClassesService implements IClassesService{
     @Autowired
     private IClassesRepository classesRepository;
@@ -36,4 +39,11 @@ public class ClassesService implements IClassesService{
     public Iterable<Classes> findByProgram(Program program) {
        return classesRepository.findAllByProgram(program);
     }
+
+    @Override
+    public boolean existsByName(String name) {
+        boolean exist = classesRepository.existsByName(name);
+        return exist;
+    }
+
 }
