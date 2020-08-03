@@ -5,11 +5,14 @@ import com.quiz.casestudy.model.Question;
 import com.quiz.casestudy.repository.IQuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -47,4 +50,29 @@ public class QuestionService implements IQuestionService {
         return questionRepository.findAllByNameContaining(name, pageable);
     }
 
+    @Override
+    public Long countAllByType(int type) {
+       return questionRepository.countAllByType(type);
+    }
+
+    @Override
+    public Page<Question> findAllByType(int type, Pageable pageable) {
+        return questionRepository.findAllByType(type, pageable);
+    }
+
+    @Override
+    public Set<Question> getRandomQuestionSetByType(int type, int amount) {
+        Set<Question> questionSet = new HashSet<>();
+        Long questionCountByType = countAllByType(type);
+        int index = (int) (Math.random() * questionCountByType);
+        Page<Question> questionPage = questionRepository.findAllByType(type, PageRequest.of(index,1));
+        while (questionSet.size() < amount) {
+            Question question = null;
+            if (questionPage.hasContent()) {
+                question = questionPage.getContent().get(0);
+            }
+            questionSet.add(question);
+        }
+        return questionSet;
+    }
 }

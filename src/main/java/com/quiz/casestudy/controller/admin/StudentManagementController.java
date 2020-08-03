@@ -46,9 +46,6 @@ public class StudentManagementController {
     private Environment environment;
 
     @Autowired
-    private MessageSource messageSource;
-
-    @Autowired
     private IAppRoleService appRoleService;
 
     @ModelAttribute("programs")

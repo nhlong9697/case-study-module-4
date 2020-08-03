@@ -1,10 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Edit class</title>
 </head>
 <body>
-
+<div sec:authorize="isAuthenticated()">
+    <span sec:authentication="principal.username"></span>, <a href="/logout">logout</a>.
+</div>
+<span th:if="${success}" th:text="#{success.editClass}"></span>
+<form method="post" th:object="${classes}">
+    <input th:type="hidden" name="id" th:field="*{id}">
+    <table>
+        <tr>
+            <td th:text="#{label.class}"></td>
+            <td><input type="text" th:field="*{name}"></td>
+            <td><p th:each="error: ${#fields.errors('name')}"
+                   th:text="${error}"></p></td>
+        </tr>
+        <tr>
+            <td th:text="#{label.program}"></td>
+            <td>
+                <select th:field="*{program}">
+                    <option th:each="p : ${programs}" th:value="${p.id}"
+                            th:selected="(${p.id}==*{program.id})"
+                            th:text="${p.name}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" th:value="#{label.editClass}"></td>
+        </tr>
+    </table>
+</form>
 </body>
 </html>

@@ -23,4 +23,7 @@ public class Quiz {
 
     @ManyToMany
     Set<Question> questions;
+
+    public Quiz() {
+    }
 }
