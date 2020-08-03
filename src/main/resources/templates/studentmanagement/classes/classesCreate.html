@@ -10,8 +10,7 @@
     <span sec:authentication="principal.username"></span>, <a href="/logout">logout</a>.
 </div>
 <span th:if="${success}" th:text="#{success.createClass}"></span>
-<form method="post" th:object="${classes}">
-    <input th:type="hidden" name="id" th:field="*{id}">
+<form method="post" th:object="${newClass}">
     <table>
         <tr>
             <td th:text="#{label.class}"></td>
@@ -24,7 +23,6 @@
             <td>
                 <select th:field="*{program}">
                     <option th:each="p : ${programs}" th:value="${p.id}"
-                            th:selected="(${p.id}==*{program.id})"
                             th:text="${p.name}"></option>
                 </select>
             </td>

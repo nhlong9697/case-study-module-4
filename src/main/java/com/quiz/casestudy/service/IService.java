@@ -1,7 +1,6 @@
 package com.quiz.casestudy.service;
 
 
-import com.quiz.casestudy.service.userservice.exception.UserAlreadyExistException;
 
 import java.util.Optional;
 

@@ -33,7 +33,7 @@ public class StudentService implements IStudentService {
     @Override
     public Student save(Student student) {
         //set role
-        student.getAppUser().setRole(appRoleRepository.findAppRoleByAuthority("ROLE_USER"));
+        student.getAppUser().setRole(appRoleRepository.findAppRoleByAuthority("ROLE_USER").get());
         //encode password
         return studentRepository.save(student);
     }
