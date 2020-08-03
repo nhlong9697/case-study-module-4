@@ -3,6 +3,7 @@ package com.quiz.casestudy.model;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.util.Set;
 
 @Entity
 @Table
@@ -21,6 +22,9 @@ public class Question {
 
     @ManyToOne
     private Module module;
+
+    @ManyToMany
+    private Set<Quiz> quizzes;
 
     public Long getId() {
         return id;

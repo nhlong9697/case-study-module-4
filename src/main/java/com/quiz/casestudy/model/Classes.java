@@ -1,6 +1,7 @@
 package com.quiz.casestudy.model;
 
 import com.quiz.casestudy.validator.UniqueClassesName;
+import com.quiz.casestudy.validator.ValidClassesName;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -18,6 +19,7 @@ public class Classes {
 
     @Column(nullable = false)
     @NotEmpty(message = "{class.register.error.notEmpty}")
+    @ValidClassesName(message = "{classes.register.error.invalidClassesName}")
     @UniqueClassesName(message = "{classes.register.error.duplicateClasses}")
     private String name;
 
