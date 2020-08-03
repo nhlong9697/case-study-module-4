@@ -3,6 +3,7 @@ package com.quiz.casestudy.controller.admin;
 import com.quiz.casestudy.model.Classes;
 import com.quiz.casestudy.model.Question;
 import com.quiz.casestudy.model.Quiz;
+import com.quiz.casestudy.service.answer.IAnswerService;
 import com.quiz.casestudy.service.question.IQuestionService;
 import com.quiz.casestudy.service.quiz.IQuizService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class ExamManagementController {
     private IQuizService quizService;
     @Autowired
     private IQuestionService questionService;
+    @Autowired
+    private IAnswerService answerService;
 
     @GetMapping("/quiz")
     public ModelAndView quizList() {
@@ -67,7 +70,15 @@ public class ExamManagementController {
     }
     @GetMapping("quiz/view/{quizId}")
     public ModelAndView viewQuiz(@PathVariable Long quizId) {
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = new ModelAndView("quizmanagement/quiz/quizView");
+        if (quizService.findById(quizId).isPresent()) {
+            Quiz quiz = quizService.findById(quizId).get();
+            Set<Question> questionSet = quiz.getQuestions();
+            modelAndView.addObject("questionSet", questionSet);
+        } else {
+            return new ModelAndView("error.404");
+        }
+
         return modelAndView;
     }
 
