@@ -12,20 +12,18 @@
 <div sec:authorize="isAuthenticated()">
     <span sec:authentication="principal.username"></span>, <a href="/logout">logout</a>.
 </div>
-<a th:href="@{/admin/questionbank/program/__${program.id}__/module}">Back</a>
-<th:block th:if="${message}">
-    <p th:text="${message}"></p>
-</th:block>
+<a th:href="@{/admin/questionbank/program/__${program.id}__/module}" th:text="#{label.back}"></a>
+<span th:if="${success}" th:text="#{success.create}"></span>
 <form th:object="${moduleEdit}" th:action="@{/admin/questionbank/program/__${programId}__/module/edit}" method="post" enctype="multipart/form-data">
     <input th:type="hidden" name="id" th:field="*{id}">
     <table>
         <tr>
-            <td>Module Name</td>
+            <td th:text="#{label.name}"></td>
             <td><input type="text" th:field="*{name}"></td>
         </tr>
         <tr>
             <td></td>
-            <td><input type="submit" value="Edit"></td>
+            <td><input type="submit" th:value="#{label.edit}"></td>
         </tr>
     </table>
 </form>

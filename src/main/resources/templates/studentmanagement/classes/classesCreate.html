@@ -13,7 +13,7 @@
 <div sec:authorize="isAuthenticated()">
     <span sec:authentication="principal.username"></span>, <a href="/logout">logout</a>.
 </div>
-<span th:if="${success}" th:text="#{success.createClass}"></span>
+<span th:if="${success}" th:text="#{success.create}"></span>
 <form method="post" th:object="${newClass}">
     <table>
         <tr>

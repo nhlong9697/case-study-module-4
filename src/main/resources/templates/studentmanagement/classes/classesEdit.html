@@ -9,11 +9,11 @@
 <a href="/admin">
     <img th:src="@{/Logo.png}" height="100" width="100" alt="Logo Error"/>
 </a> <br>
-<a href="/admin/studentmanagement/classes">Back</a>
+<a href="/admin/studentmanagement/classes" th:text="#{label.back}"></a>
 <div sec:authorize="isAuthenticated()">
     <span sec:authentication="principal.username"></span>, <a href="/logout">logout</a>.
 </div>
-<span th:if="${success}" th:text="#{success.editClass}"></span>
+<span th:if="${success}" th:text="#{success.edit}"></span>
 <form method="post" th:object="${classes}">
     <input th:type="hidden" name="id" th:field="*{id}">
     <table>
@@ -35,7 +35,7 @@
         </tr>
         <tr>
             <td></td>
-            <td><input type="submit" th:value="#{label.editClass}"></td>
+            <td><input type="submit" th:value="#{label.edit}"></td>
         </tr>
     </table>
 </form>

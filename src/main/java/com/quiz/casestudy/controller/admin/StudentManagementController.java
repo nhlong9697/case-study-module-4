@@ -184,7 +184,7 @@ public class StudentManagementController {
 
 
         modelAndView.addObject("newStudent",new Student());
-        modelAndView.addObject("message", "Student create successfully");
+        modelAndView.addObject("success", "Student create successfully");
 
         return modelAndView;
     }
@@ -210,7 +210,7 @@ public class StudentManagementController {
 
         ModelAndView modelAndView = new ModelAndView("/studentmanagement/student/studentEdit");
         modelAndView.addObject("student", student);
-        modelAndView.addObject("message", "student updated successfully");
+        modelAndView.addObject("success", "student updated successfully");
         return modelAndView;
     }
 

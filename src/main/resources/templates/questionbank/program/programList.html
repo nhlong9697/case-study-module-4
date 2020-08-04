@@ -12,20 +12,20 @@
 <div sec:authorize="isAuthenticated()">
     <span sec:authentication="principal.username"></span>, <a href="/logout">logout</a>.
 </div>
-<a href="/admin/questionbank/program/create">Create new program</a>
-<h1>Program List</h1>
+<a href="/admin/questionbank/program/create" th:text="#{label.create}"></a>
+<h1 th:text="#{label.program}"></h1>
 <table border="1">
     <tr>
-        <th>Image</th>
-        <th>Name</th>
-        <th>Edit</th>
-        <th>Delete</th>
+        <th th:text="#{label.image}"></th>
+        <th th:text="#{label.name}"></th>
+        <th th:text="#{label.edit}"></th>
+        <th th:text="#{label.delete}"></th>
     </tr>
     <tr th:each="program : ${programList}">
         <td><img height="100px" width="100px" th:src="@{/__${program.avatar}__}" alt="Error"></td>
         <td><a th:href="@{/admin/questionbank/program/__${program.id}__/module}"><p th:text="${program.name}"></p></a></td>
-        <td><a th:href="@{/admin/questionbank/program/edit/__${program.id}__}">Edit</a></td>
-        <td><a th:href="@{/admin/questionbank/program/delete/__${program.id}__ }">Delete</a></td>
+        <td><a th:href="@{/admin/questionbank/program/edit/__${program.id}__}" th:text="#{label.edit}"></a></td>
+        <td><a th:href="@{/admin/questionbank/program/delete/__${program.id}__ }" th:text="#{label.delete}">Z</a></td>
     </tr>
 </table>
 </body>

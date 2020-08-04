@@ -13,21 +13,19 @@
     <span sec:authentication="principal.username"></span>, <a href="/logout">logout</a>.
 </div>
 <a href="/admin/questionbank/program">Back</a>
-<th:block th:if="${message}">
-    <p th:text="${message}"></p>
-</th:block>
+<span th:if="${success}" th:text="#{success.edit}"></span>
 <form th:object="${programEdit}" th:action="@{/admin/questionbank/program/edit}" method="post" enctype="multipart/form-data">
     <input th:type="hidden" name="id" th:field="*{id}">
     <table>
         <tr>
-            <td>Program Name</td>
+            <td th:text="#{label.name}"></td>
             <td><input type="text" th:field="*{name}"></td>
 
-            <td>Image</td>
+            <td th:text="#{label.image}"></td>
             <td><input type="file" th:field="*{image}"></td>
 
             <td></td>
-            <td><input type="submit" value="Edit"></td>
+            <td><input type="submit" th:value="#{label.edit}"></td>
         </tr>
     </table>
 </form>
