@@ -12,7 +12,7 @@ import java.util.Set;
 public interface IQuestionService extends IService<Question> {
     Page<Question> findAllByModule(Module module,Pageable pageable);
     Page<Question> findAllByNameContaining(String name, Pageable pageable);
-    Long countAllByType(int type);
-    Page<Question> findAllByType(int type, Pageable pageable);
-    Set<Question> getRandomQuestionSetByType(int type, int amount);
+    Long countAllByTypeAndModule(int type, Module module);
+    Page<Question> findAllByTypeAndModule(int type, Module module, Pageable pageable);
+    Set<Question> getRandomQuestionSetByTypeAndModule(int type, Module module, int amount);
 }

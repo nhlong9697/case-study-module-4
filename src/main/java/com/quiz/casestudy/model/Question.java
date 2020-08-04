@@ -1,5 +1,7 @@
 package com.quiz.casestudy.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -7,6 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table
+@Data
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +26,11 @@ public class Question {
     @ManyToOne
     private Module module;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<Quiz> quizzes;
+
+    @OneToMany(mappedBy = "question")
+    private Set<Answer> answers;
 
     public Long getId() {
         return id;
@@ -56,5 +62,13 @@ public class Question {
 
     public void setModule(Module module) {
         this.module = module;
+    }
+
+    public Set<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(Set<Answer> answers) {
+        this.answers = answers;
     }
 }

@@ -10,6 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface IQuestionRepository extends JpaRepository<Question, Long> {
     Page<Question> findAllByModule(Module module, Pageable pageble);
     Page<Question> findAllByNameContaining(String name, Pageable pageble);
-    Long countAllByType(int type);
-    Page<Question> findAllByType(int type, Pageable pageable);
+    Long countAllByTypeAndModule(int type, Module module);
+    Page<Question> findAllByTypeAndModule(int type, Module module, Pageable pageable);
 }

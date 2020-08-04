@@ -2,26 +2,30 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Class</title>
+    <title>Quiz</title>
 </head>
 <body>
-<a th:href="@{/admin/studentmanagement/classes/create}">Create new class</a>
+<a th:href="@{/admin/quizmanagement/quiz/create}">Create new quiz</a>
 <h1>Class list</h1>
 <table border="1">
     <tr>
-        <th>Class</th>
+        <th>Id</th>
         <th>Program</th>
-        <th>No. student</th>
+        <th>Module</th>
+        <th>Time</th>
+        <th>MPS</th>
         <th>Edit</th>
         <th>Delete</th>
     </tr>
-    <tr th:each="class : ${classList}">
-        <td><a th:href="@{/admin/studentmanagement/classes/__${class.id}__}"><p
-                th:text="${class.name}"></p></a></td>
-        <td><p th:text="${class.program.name}"></p></td>
-        <td><p>N0 of student</p></td>
-        <td><a th:href="@{/admin/studentmanagement/classes/edit/__${class.id}__}">Edit</a></td>
-        <td><a th:href="@{/admin/studentmanagement/classes/delete/__${class.id}__}">Delete</a></td>
+    <tr th:each="quiz : ${quizList}">
+        <td><a th:href="@{/admin/quizmanagement/quiz/__${quiz.id}__}"><p
+                th:text="${quiz.id}"></p></a></td>
+        <td th:text="${quiz.questions[0].module.program.name}"></td>
+        <td th:text="${quiz.questions[0].module.name}"></td>
+        <td th:text="${quiz.time}"></td>
+        <td th:text="${quiz.MPS}"></td>
+        <td><a th:href="@{/admin/quizmanagement/quiz/edit/__${quiz.id}__}">Edit</a></td>
+        <td><a th:href="@{/admin/quizmanagement/quiz/delete/__${quiz.id}__}">Delete</a></td>
     </tr>
 </table>
 </body>

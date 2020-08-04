@@ -51,21 +51,22 @@ public class QuestionService implements IQuestionService {
     }
 
     @Override
-    public Long countAllByType(int type) {
-       return questionRepository.countAllByType(type);
+    public Long countAllByTypeAndModule(int type, Module module) {
+       return questionRepository.countAllByTypeAndModule(type,module);
     }
 
     @Override
-    public Page<Question> findAllByType(int type, Pageable pageable) {
-        return questionRepository.findAllByType(type, pageable);
+    public Page<Question> findAllByTypeAndModule(int type,Module module, Pageable pageable) {
+        return questionRepository.findAllByTypeAndModule(type,module, pageable);
     }
 
     @Override
-    public Set<Question> getRandomQuestionSetByType(int type, int amount) {
+    public Set<Question> getRandomQuestionSetByTypeAndModule(int type, Module module, int amount) {
         Set<Question> questionSet = new HashSet<>();
-        Long questionCountByType = countAllByType(type);
+        Long questionCountByType = countAllByTypeAndModule(type,module);
         int index = (int) (Math.random() * questionCountByType);
-        Page<Question> questionPage = questionRepository.findAllByType(type, PageRequest.of(index,1));
+        Page<Question> questionPage = questionRepository.findAllByTypeAndModule(type,module,
+                PageRequest.of(index,1));
         while (questionSet.size() < amount) {
             Question question = null;
             if (questionPage.hasContent()) {
