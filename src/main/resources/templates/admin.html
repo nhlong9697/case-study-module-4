@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Admin</title>
+    <style>
+        td{
+            width: 100px;
+            height: 100px;
+        }
+    </style>
 </head>
 <body>
-<h1>Yo i'm an admin</h1>
+<table>
+    <tr>
+        <td>
+        <a href="/admin">
+            <img th:src="@{Logo.png}" height="100" width="100" alt="Logo Error"/>
+            </a>
+        </td>
+        <td>
+            <a href="/admin/questionbank/program">Question Bank</a>
+        </td>
+        <td>
+            <a href="/admin/studentmanagement/classes">Class</a>
+        </td>
+        <td>
+            <a href="/admin/studentmanagement/student">List All Student</a>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

@@ -6,6 +6,10 @@
     <title>Edit class</title>
 </head>
 <body>
+<a href="/admin">
+    <img th:src="@{/Logo.png}" height="100" width="100" alt="Logo Error"/>
+</a> <br>
+<a href="/admin/studentmanagement/classes">Back</a>
 <div sec:authorize="isAuthenticated()">
     <span sec:authentication="principal.username"></span>, <a href="/logout">logout</a>.
 </div>

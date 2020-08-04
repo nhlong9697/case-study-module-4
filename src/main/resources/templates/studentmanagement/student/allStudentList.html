@@ -3,14 +3,12 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Student list</title>
+    <title>List Student All</title>
 </head>
 <body>
-<div>
-    <a href="/admin">
-        <img th:src="@{/Logo.png}" height="100" width="100" alt="Logo Error"/>
-    </a>
-</div>
+<a href="/admin">
+    <img th:src="@{/Logo.png}" height="100" width="100" alt="Logo Error"/>
+</a>
 <div sec:authorize="isAuthenticated()">
     <span sec:authentication="principal.username"></span>, <a href="/logout">logout</a>.
 </div>
@@ -19,8 +17,9 @@
     <input name="s" type="text"/>
     <input type="submit" value="Search"/>
 </form><br/>
-<a href="/admin/studentmanagement/classes">Back</a>
-<h1>Student list</h1>
+<a href="/admin">Back</a>
+<h1>All Student list</h1>
+<a th:href="@{/admin/studentmanagement/student/create}">Create new student</a>
 <table border="1">
     <tr>
         <th>Name</th>
@@ -29,7 +28,7 @@
         <th>Program</th>
         <th>Email</th>
     </tr>
-    <tr th:each="student : ${studentList}">
+    <tr th:each="student : ${allStudentList}">
         <td th:text="${student.name}"></td>
         <td><img height="100px" width="100px" th:src="@{/__${student.avatar}__}"></td>
         <td th:text="${student.classes.name}"></td>
@@ -38,9 +37,9 @@
     </tr>
 </table>
 <div>
-    <a th:href="@{'/admin/studentmanagement/classes/__${classes.id}__/student'(s=${s},page=${studentList.number - 1})}" th:if="${studentList.hasPrevious()}">Previous</a>
-    <span th:text="${studentList.number + 1}"></span>/<span th:text="${studentList.totalPages}"></span>
-    <a th:href="@{'/admin/studentmanagement/classes/__${classes.id}__/student'(s=${s},page=${studentList.number + 1})}" th:if="${studentList.hasNext()}">Next</a>
+    <a th:href="@{'/admin/studentmanagement/student'(s=${s},page=${allStudentList.number - 1})}" th:if="${allStudentList.hasPrevious()}">Previous</a>
+    <span th:text="${allStudentList.number + 1}"></span>/<span th:text="${allStudentList.totalPages}"></span>
+    <a th:href="@{'/admin/studentmanagement/student'(s=${s},page=${allStudentList.number + 1})}" th:if="${allStudentList.hasNext()}">Next</a>
 </div>
 </body>
 </html>

@@ -1,12 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Class</title>
 </head>
 <body>
+<a href="/admin">
+    <img th:src="@{/Logo.png}" height="100" width="100" alt="Logo Error"/>
+</a> <br>
+<div sec:authorize="isAuthenticated()">
+    <span sec:authentication="principal.username"></span>, <a href="/logout">logout</a>.
+</div>
 <a th:href="@{/admin/studentmanagement/classes/create}">Create new class</a>
 <h1>Class list</h1>
+<form>
+    Search by name CLass:
+    <input name="s" type="text"/>
+    <input type="submit" value="Search"/>
+</form><br/>
 <table border="1">
     <tr>
         <th>Class</th>
@@ -16,7 +28,7 @@
         <th>Delete</th>
     </tr>
     <tr th:each="class : ${classList}">
-        <td><a th:href="@{/admin/studentmanagement/classes/__${class.id}__}"><p
+        <td><a th:href="@{/admin/studentmanagement/classes/__${class.id}__/student}"><p
                 th:text="${class.name}"></p></a></td>
         <td><p th:text="${class.program.name}"></p></td>
         <td><p>N0 of student</p></td>
@@ -24,5 +36,11 @@
         <td><a th:href="@{/admin/studentmanagement/classes/delete/__${class.id}__}">Delete</a></td>
     </tr>
 </table>
+<div>
+    <a th:href="@{'/admin/studentmanagement/classes'(s=${s},page=${classList.number - 1})}" th:if="${classList.hasPrevious()}">Previous</a>
+    <span th:text="${classList.number + 1}"></span>/<span th:text="${classList.totalPages}"></span>
+    <a th:href="@{'/admin/studentmanagement/classes'(s=${s},page=${classList.number + 1})}" th:if="${classList.hasNext()}">Next</a>
+</div>
+
 </body>
 </html>
