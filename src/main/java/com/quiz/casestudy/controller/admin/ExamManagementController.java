@@ -123,13 +123,17 @@ public class ExamManagementController {
 
     @GetMapping("/assign/create")
     public ModelAndView assignCreateForm() {
-        ModelAndView modelAndView = new ModelAndView("quimanagement/assign/assignCreate");
+        ModelAndView modelAndView = new ModelAndView("quizmanagement/assign/assignCreate");
         modelAndView.addObject("newQuizAssignment", new QuizAssignment());
         return modelAndView;
     }
 
-//    @PostMapping("/assign/create")
-//    public ModelAndView createQuizAssignment() {
-//        ModelAndView
-//    }
+    @PostMapping("/assign/create")
+    public ModelAndView createQuizAssignment(@ModelAttribute("newQuizAssignment") QuizAssignment quizAssignment) {
+        quizAssignmentService.save(quizAssignment);
+        ModelAndView modelAndView = new ModelAndView("quizmanagement/assign/assignCreate");
+        modelAndView.addObject("newQuizAssignment", new QuizAssignment());
+        modelAndView.addObject("success", "success");
+        return modelAndView;
+    }
 }
