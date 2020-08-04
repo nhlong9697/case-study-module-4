@@ -1,7 +1,7 @@
 package com.quiz.casestudy.controller.admin;
 
 import com.quiz.casestudy.model.*;
-import com.quiz.casestudy.service.answer.IAnswerService;
+import com.quiz.casestudy.service.assign.IQuizAssignmentService;
 import com.quiz.casestudy.service.module.IModuleService;
 import com.quiz.casestudy.service.program.IProgramService;
 import com.quiz.casestudy.service.question.IQuestionService;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Controller
@@ -27,11 +26,11 @@ public class ExamManagementController {
     @Autowired
     private IQuestionService questionService;
     @Autowired
-    private IAnswerService answerService;
-    @Autowired
     private IModuleService moduleService;
     @Autowired
     private IProgramService programService;
+    @Autowired
+    private IQuizAssignmentService quizAssignmentService;
 
     @ModelAttribute("programs")
     public Iterable<Program> programs(){
@@ -49,7 +48,6 @@ public class ExamManagementController {
     @GetMapping("/quiz/create")
     public ModelAndView createQuizForm() {
         ModelAndView modelAndView = new ModelAndView("quizmanagement/quiz/quizCreate");
-
         modelAndView.addObject("newQuiz", new Quiz());
         return modelAndView;
     }
@@ -115,11 +113,23 @@ public class ExamManagementController {
 
         return modelAndView;
     }
-//    @GetMapping("/assign")
-//    public ModelAndView assignList() {
-//        ModelAndView modelAndView = new ModelAndView("quizmanagement/assing/assignList");
-//        Iterable<Quiz> assignList = assignService.findAll();
-//        modelAndView.addObject("assignList", assignList);
-//        return modelAndView;
-//    }
+    @GetMapping("/assign")
+    public ModelAndView assignList() {
+        ModelAndView modelAndView = new ModelAndView("quizmanagement/assign/assignList");
+        Iterable<QuizAssignment> assignList = quizAssignmentService.findAll();
+        modelAndView.addObject("assignList", assignList);
+        return modelAndView;
+    }
+
+    @GetMapping("/assign/create")
+    public ModelAndView assignCreateForm() {
+        ModelAndView modelAndView = new ModelAndView("quimanagement/assign/assignCreate");
+        modelAndView.addObject("newQuizAssignment", new QuizAssignment());
+        return modelAndView;
+    }
+
+    @PostMapping("/assign/create")
+    public ModelAndView createQuizAssignment() {
+        ModelAndView
+    }
 }
