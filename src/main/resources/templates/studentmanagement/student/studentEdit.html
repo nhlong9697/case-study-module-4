@@ -1,10 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<a href="/admin">
+    <img th:src="@{/Logo.png}" height="100" width="100" alt="Logo Error"/>
+</a> <br>
+<a href="/admin/studentmanagement/student">Back to student list</a>
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+<form th:object="${student}" method="post" enctype="multipart/form-data">
+    <input th:type="hidden" name="id" th:field="*{id}">
+    <table>
+        <tr>
+            <td>Name</td>
+            <td><input type="text" th:field="*{name}"></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input type="text" th:field="*{appUser.email}"></td>
+            <div th:each="error: ${#fields.errors('appUser.email')}"
+                 th:text="${error}"></div>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="hidden" th:field="*{appUser.password}"></td>
+            <div th:each="error: ${#fields.errors('appUser.password')}"
+                 th:text="${error}"></div>
+        </tr>
+        <tr>
+            <td>Program</td>
+            <td>
+                <select id="programList">
+                    <option th:each="program: ${programs}" th:value="${program.id}"
+                            th:text="${program.name}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Class</td>
+            <td>
+                <select id="classesList" th:field="*{classes}">
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Image</td>
+            <td><input type="file" th:field="*{image}"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="sua"></td>
+        </tr>
+    </table>
+</form>
 
 </body>
 </html>

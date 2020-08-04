@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/questionbank")
 public class QuestionBankController {
     @Autowired
     private IProgramService programService;
@@ -57,21 +57,21 @@ public class QuestionBankController {
         return questionService.findAll();
     }
 
-    @GetMapping("/questionbank/program")
+    @GetMapping("/program")
     public ModelAndView programList(){
         ModelAndView modelAndView = new ModelAndView("questionbank/program/programList");
         modelAndView.addObject("programList",programService.findAll());
         return modelAndView;
     }
 
-    @GetMapping("/questionbank/program/create")
+    @GetMapping("/program/create")
     public ModelAndView programCreateForm(){
         ModelAndView modelAndView = new ModelAndView("questionbank/program/programCreate");
         modelAndView.addObject("programCreate",new Program());
         return modelAndView;
     }
 
-    @PostMapping("/questionbank/program/create")
+    @PostMapping("/program/create")
     public ModelAndView programCreate(@ModelAttribute Program program){
         MultipartFile file = program.getImage();
         String fileName = file.getOriginalFilename();
@@ -88,14 +88,14 @@ public class QuestionBankController {
         modelAndView.addObject("message", "Program updated successfully");
         return modelAndView;
     }
-    @GetMapping("/questionbank/program/edit/{id}")
+    @GetMapping("/program/edit/{id}")
     public ModelAndView programEditForm(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("questionbank/program/programEdit");
         modelAndView.addObject("programEdit",programService.findById(id));
         return modelAndView;
     }
 
-    @PostMapping("/questionbank/program/edit")
+    @PostMapping("/program/edit")
     public ModelAndView programEdit(@ModelAttribute("programEdit") Program program) {
         MultipartFile file = program.getImage();
         String fileName = file.getOriginalFilename();
@@ -107,13 +107,13 @@ public class QuestionBankController {
         return modelAndView;
     }
 
-    @GetMapping("/questionbank/program/delete/{id}")
+    @GetMapping("/program/delete/{id}")
     public String programDeleteForm(@PathVariable Long id) {
         programService.remove(id);
         return "redirect:/admin/questionbank/program";
     }
 
-   @GetMapping("/questionbank/program/{id}/module")
+   @GetMapping("/program/{id}/module")
     public ModelAndView moduleList(@PathVariable("id") Long id){
         Program program = programService.findById(id).get();
         if (program == null){
@@ -126,7 +126,7 @@ public class QuestionBankController {
         return modelAndView;
     }
 
-    @GetMapping("/questionbank/program/{programId}/module/create")
+    @GetMapping("/program/{programId}/module/create")
     public ModelAndView moduleCreateForm(@PathVariable Long programId){
         Program program = programService.findById(programId).get();
         ModelAndView modelAndView = new ModelAndView("questionbank/module/moduleCreate");
@@ -135,7 +135,7 @@ public class QuestionBankController {
         return modelAndView;
     }
 
-    @PostMapping("/questionbank/program/{programId}/module/create")
+    @PostMapping("/program/{programId}/module/create")
     public ModelAndView moduleCreate(@ModelAttribute("moduleCreate") Module module, @PathVariable Long programId){
         Program program = programService.findById(programId).get();
         if(program != null){
@@ -148,7 +148,7 @@ public class QuestionBankController {
         modelAndView.addObject("message", "Module create successfully");
         return modelAndView;
     }
-    @GetMapping("/questionbank/program/{programId}/module/edit/{id}")
+    @GetMapping("/program/{programId}/module/edit/{id}")
     public ModelAndView moduleEditForm(@PathVariable Long programId, @PathVariable Long id) {
         Program program = programService.findById(programId).get();
         ModelAndView modelAndView = new ModelAndView("/questionbank/module/moduleEdit");
@@ -158,7 +158,7 @@ public class QuestionBankController {
         return modelAndView;
     }
 
-    @PostMapping("/questionbank/program/{programId}/module/edit")
+    @PostMapping("/program/{programId}/module/edit")
     public ModelAndView moduleEdit(@ModelAttribute("moduleEdit") Module module,@PathVariable Long programId) {
         Program program = programService.findById(programId).get();
         if(program != null){
@@ -172,13 +172,13 @@ public class QuestionBankController {
         return modelAndView;
     }
 
-    @GetMapping("/questionbank/program/{programId}/module/delete/{id}")
+    @GetMapping("/program/{programId}/module/delete/{id}")
     public String moduleDeleteForm(@PathVariable Long programId,@PathVariable Long id) {
         moduleService.remove(id);
         return "redirect:/admin/questionbank/program/{programId}/module";
     }
 
-    @GetMapping("/questionbank/program/{programId}/module/{id}/question")
+    @GetMapping("/program/{programId}/module/{id}/question")
     public ModelAndView questionList(@RequestParam("s")Optional<String>s,
             @PageableDefault(size = 6, direction = Sort.Direction.ASC, sort = "id") Pageable pageable,
             @PathVariable("programId") Long programId , @PathVariable("id") Long id){
@@ -201,7 +201,7 @@ public class QuestionBankController {
         return modelAndView;
     }
 
-    @GetMapping("/questionbank/program/{programId}/module/{moduleId}/question/create")
+    @GetMapping("/program/{programId}/module/{moduleId}/question/create")
     public ModelAndView questionCreateForm(@PathVariable("programId") Long programId ,@PathVariable Long moduleId){
         Module module = moduleService.findById(moduleId).get();
         Program program = programService.findById(programId).get();
@@ -212,7 +212,7 @@ public class QuestionBankController {
         return modelAndView;
     }
 
-    @PostMapping("/questionbank/program/{programId}/module/{moduleId}/question/create")
+    @PostMapping("/program/{programId}/module/{moduleId}/question/create")
     public ModelAndView questionCreate(@ModelAttribute("questionCreate") Question question,@PathVariable("programId") Long programId, @PathVariable Long moduleId){
         Program program = programService.findById(programId).get();
         Module module = moduleService.findById(moduleId).get();
@@ -228,7 +228,7 @@ public class QuestionBankController {
         return modelAndView;
     }
 
-    @GetMapping("/questionbank/program/{programId}/module/{moduleId}/question/edit/{id}")
+    @GetMapping("/program/{programId}/module/{moduleId}/question/edit/{id}")
     public ModelAndView questionEditForm(@PathVariable Long moduleId,@PathVariable("programId") Long programId,@PathVariable Long id) {
         Program program = programService.findById(programId).get();
         Module module = moduleService.findById(moduleId).get();
@@ -239,7 +239,7 @@ public class QuestionBankController {
         return modelAndView;
     }
 
-    @PostMapping("/questionbank/program/{programId}/module/{moduleId}/question/edit")
+    @PostMapping("/program/{programId}/module/{moduleId}/question/edit")
     public ModelAndView questionEdit(@ModelAttribute("questionEdit") Question question,@PathVariable("programId") Long programId, @PathVariable Long moduleId) {
         Module module = moduleService.findById(moduleId).get();
         Program program = programService.findById(programId).get();
@@ -255,13 +255,13 @@ public class QuestionBankController {
         return modelAndView;
     }
 
-    @GetMapping("/questionbank/program/{programId}/module/{moduleId}/question/delete/{id}")
+    @GetMapping("/program/{programId}/module/{moduleId}/question/delete/{id}")
     public String questionDeleteForm(@PathVariable("programId") Long programId,@PathVariable Long moduleId, @PathVariable Long id) {
         questionService.remove(id);
         return "redirect:/admin/questionbank/program/{programId}/module/{moduleId}/question";
     }
 
-    @GetMapping("/questionbank/program/{programId}/module/{moduleId}/question/{id}/answer")
+    @GetMapping("/program/{programId}/module/{moduleId}/question/{id}/answer")
     public ModelAndView answerList(@PathVariable("programId") Long programId, @PathVariable Long moduleId,@PathVariable("id") Long id){
         Program program = programService.findById(programId).get();
         Module module = moduleService.findById(moduleId).get();
@@ -278,7 +278,7 @@ public class QuestionBankController {
         return modelAndView;
     }
 
-    @GetMapping("/questionbank/program/{programId}/module/{moduleId}/question/{questionId}/answer/create")
+    @GetMapping("/program/{programId}/module/{moduleId}/question/{questionId}/answer/create")
     public ModelAndView answerCreateForm(@PathVariable("programId") Long programId, @PathVariable Long moduleId,@PathVariable Long questionId){
         Program program = programService.findById(programId).get();
         Module module = moduleService.findById(moduleId).get();
@@ -291,7 +291,7 @@ public class QuestionBankController {
         return modelAndView;
     }
 
-    @PostMapping("/questionbank/program/{programId}/module/{moduleId}/question/{questionId}/answer/create")
+    @PostMapping("/program/{programId}/module/{moduleId}/question/{questionId}/answer/create")
     public ModelAndView answerCreate(@ModelAttribute("answerCreate") Answer answer,@PathVariable("programId") Long programId, @PathVariable Long moduleId, @PathVariable Long questionId){
         Program program = programService.findById(programId).get();
         Module module = moduleService.findById(moduleId).get();
@@ -309,7 +309,7 @@ public class QuestionBankController {
         return modelAndView;
     }
 
-    @GetMapping("/questionbank/program/{programId}/module/{moduleId}/question/{questionId}/answer/edit/{id}")
+    @GetMapping("/program/{programId}/module/{moduleId}/question/{questionId}/answer/edit/{id}")
     public ModelAndView answerEditForm(@PathVariable("programId") Long programId, @PathVariable Long moduleId,@PathVariable Long questionId,@PathVariable Long id) {
         Program program = programService.findById(programId).get();
         Module module = moduleService.findById(moduleId).get();
@@ -322,7 +322,7 @@ public class QuestionBankController {
         return modelAndView;
     }
 
-    @PostMapping("/questionbank/program/{programId}/module/{moduleId}/question/{questionId}/answer/edit")
+    @PostMapping("/program/{programId}/module/{moduleId}/question/{questionId}/answer/edit")
     public ModelAndView answerEdit(@ModelAttribute("answerEdit") Answer answer,@PathVariable("programId") Long programId, @PathVariable Long moduleId, @PathVariable Long questionId) {
         Program program = programService.findById(programId).get();
         Module module = moduleService.findById(moduleId).get();
@@ -340,7 +340,7 @@ public class QuestionBankController {
         return modelAndView;
     }
 
-    @GetMapping("/questionbank/program/{programId}/module/{moduleId}/question/{questionId}/answer/delete/{id}")
+    @GetMapping("/program/{programId}/module/{moduleId}/question/{questionId}/answer/delete/{id}")
     public String answerDeleteForm(@PathVariable("programId") Long programId, @PathVariable Long moduleId,@PathVariable Long questionId,@PathVariable Long id) {
         answerService.remove(id);
         return "redirect:/admin/questionbank/program/{programId}/module/{moduleId}/question/{questionId}/answer";

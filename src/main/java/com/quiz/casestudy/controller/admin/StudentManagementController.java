@@ -11,6 +11,10 @@ import com.quiz.casestudy.service.userservice.IAppRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -61,10 +65,17 @@ public class StudentManagementController {
     }
 
     @GetMapping("/classes")
-    public ModelAndView classList() {
+    public ModelAndView classList(@RequestParam("s")Optional<String>s,
+                                  @PageableDefault(size = 6, direction = Sort.Direction.ASC, sort = "id") Pageable pageable) {
+        Page<Classes> classes;
         ModelAndView modelAndView = new ModelAndView("studentmanagement/classes/classesList");
-        Iterable<Classes> classList = classesService.findAll();
-        modelAndView.addObject("classList", classList);
+        if (s.isPresent()){
+            classes = classesService.findAllByNameContaining(s.get(), pageable);
+            modelAndView.addObject("s", s.get());
+        }else {
+            classes = classesService.findAll(pageable);
+        }
+        modelAndView.addObject("classList", classes);
         return modelAndView;
     }
 
@@ -116,10 +127,37 @@ public class StudentManagementController {
     }
 
     @GetMapping("/student")
-    public ModelAndView studentList(){
-        Iterable<Student> studentList = studentService.findAll();
+    public ModelAndView allStudentList(@RequestParam("s")Optional<String>s,
+                                  @PageableDefault(size = 6, direction = Sort.Direction.ASC, sort = "id") Pageable pageable) {
+        Page<Student> students;
+        ModelAndView modelAndView = new ModelAndView("studentmanagement/student/allStudentList");
+        if (s.isPresent()){
+            students = studentService.findAllByNameContaining(s.get(), pageable);
+            modelAndView.addObject("s", s.get());
+        }else {
+            students = studentService.findAll(pageable);
+        }
+        modelAndView.addObject("allStudentList", students);
+        return modelAndView;
+    }
+
+    @GetMapping("/classes/{id}/student")
+    public ModelAndView studentList(@RequestParam("s")Optional<String>s,
+                                    @PageableDefault(size = 6, direction = Sort.Direction.ASC, sort = "id") Pageable pageable
+            ,@PathVariable("id") Long id){
+        Page<Student> students;
         ModelAndView modelAndView = new ModelAndView("studentmanagement/student/studentList");
-        modelAndView.addObject("studentList",studentList);
+        Classes classes = classesService.findById(id).get();
+        if (classes == null){
+            return new ModelAndView("/error.404");
+        }else {
+            students = studentService.findAllByClasses(classes,pageable);
+        }if (s.isPresent()){
+            students = studentService.findAllByNameContaining(s.get(), pageable);
+            modelAndView.addObject("s", s.get());
+        }
+        modelAndView.addObject("classes",classes);
+        modelAndView.addObject("studentList",students);
         return modelAndView;
     }
     @GetMapping("/student/create")
@@ -173,7 +211,7 @@ public class StudentManagementController {
         studentService.save(student);
 
         ModelAndView modelAndView = new ModelAndView("/studentmanagement/student/studentEdit");
-        modelAndView.addObject("studentEdit", student);
+        modelAndView.addObject("student", student);
         modelAndView.addObject("message", "student updated successfully");
         return modelAndView;
     }

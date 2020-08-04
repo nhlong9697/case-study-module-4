@@ -5,6 +5,9 @@
     <title>Create Module</title>
 </head>
 <body>
+<a href="/admin">
+    <img th:src="@{/Logo.png}" height="100" width="100" alt="Logo Error"/>
+</a><br>
 <a th:href="@{/admin/questionbank/program/__${program.id}__/module}">Back</a>
 <th:block th:if="${message}">
     <p th:text="${message}"></p>
