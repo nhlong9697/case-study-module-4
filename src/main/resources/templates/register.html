@@ -17,7 +17,6 @@
             <td><input type="text" th:field="*{email}"></td>
             <div th:each="error: ${#fields.errors('email')}"
                th:text="${error}"></div>
-            <div th:if="${duplicate_message}" th:text="${duplicate_message}"></div>
         </tr>
         <tr>
             <td th:text="#{label.user.password}"></td>

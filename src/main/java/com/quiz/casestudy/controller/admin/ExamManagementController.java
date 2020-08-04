@@ -102,7 +102,7 @@ public class ExamManagementController {
 
         return modelAndView;
     }
-    @GetMapping("quiz/view/{quizId}")
+    @GetMapping("/quiz/view/{quizId}")
     public ModelAndView viewQuiz(@PathVariable Long quizId) {
         ModelAndView modelAndView = new ModelAndView("quizmanagement/quiz/quizView");
         if (quizService.findById(quizId).isPresent()) {
@@ -115,5 +115,11 @@ public class ExamManagementController {
 
         return modelAndView;
     }
-
+//    @GetMapping("/assign")
+//    public ModelAndView assignList() {
+//        ModelAndView modelAndView = new ModelAndView("quizmanagement/assing/assignList");
+//        Iterable<Quiz> assignList = assignService.findAll();
+//        modelAndView.addObject("assignList", assignList);
+//        return modelAndView;
+//    }
 }
