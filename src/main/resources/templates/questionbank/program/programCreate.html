@@ -12,23 +12,22 @@
 <div sec:authorize="isAuthenticated()">
     <span sec:authentication="principal.username"></span>, <a href="/logout">logout</a>.
 </div>
-<a href="/admin/questionbank/program">Back</a>
-<th:block th:if="${message}">
-    <p th:text="${message}"></p>
+<a href="/admin/questionbank/program" th:text="#{label.back}"></a>
+<span th:if="${success}" th:text="#{success.create}"></span>
 </th:block>
 <form th:object="${programCreate}" method="post" enctype="multipart/form-data">
     <table>
         <tr>
-            <td>Name</td>
+            <td th:text="#{label.name}"></td>
             <td><input type="text" th:field="*{name}"></td>
         </tr>
         <tr>
-            <td>Image</td>
+            <td th:text="#{label.image}"></td>
             <td><input type="file" th:field="*{image}"></td>
         </tr>
         <tr>
             <td></td>
-            <td><input type="submit" value="tao moi"></td>
+            <td><input type="submit" th:value="#{label.create}"></td>
         </tr>
     </table>
 </form>

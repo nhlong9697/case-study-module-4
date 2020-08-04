@@ -17,18 +17,18 @@
         <span th:text="${program.name}"></span>
     </a>
 </span>
-<h1>Program List: <span th:text="${program.name}"></span> </h1>
-<a th:href="@{/admin/questionbank/program/__${program.id}__/module/create}">Create new module</a>
+<h1 th:text="#{label.module}"><span th:text="${program.name}"></span> </h1>
+<a th:href="@{/admin/questionbank/program/__${program.id}__/module/create}" th:text="#{label.create}"></a>
 <table border="1">
     <tr>
-        <th>Name</th>
-        <th>Edit</th>
-        <th>Delete</th>
+        <th th:text="#{label.name}"></th>
+        <th th:text="#{label.edit}"></th>
+        <th th:text="#{label.delete}"></th>
     </tr>
     <tr th:each="module : ${moduleList}">
         <td><a th:href="@{/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question}"><p th:text="${module.name}"></p></a></td>
-        <td><a th:href="@{/admin/questionbank/program/__${program.id}__/module/edit/__${module.id}__ }">Edit</a></td>
-        <td><a th:href="@{/admin/questionbank/program/__${program.id}__/module/delete/__${module.id}__ }">Delete</a></td>
+        <td><a th:href="@{/admin/questionbank/program/__${program.id}__/module/edit/__${module.id}__ }" th:text="#{label.edit}"></a></td>
+        <td><a th:href="@{/admin/questionbank/program/__${program.id}__/module/delete/__${module.id}__ }" th:text="#{label.delete}"></a></td>
     </tr>
 </table>
 </body>

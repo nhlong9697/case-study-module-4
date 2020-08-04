@@ -13,9 +13,7 @@
     <span sec:authentication="principal.username"></span>, <a href="/logout">logout</a>.
 </div>
 <a href="/admin/studentmanagement/student">Back to student list</a>
-<th:block th:if="${message}">
-    <p th:text="${message}"></p>
-</th:block>
+<span th:if="${success}" th:text="#{success.create}"></span>
 <form th:object="${student}" method="post" enctype="multipart/form-data">
     <input th:type="hidden" name="id" th:field="*{id}">
     <table>

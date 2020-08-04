@@ -85,7 +85,7 @@ public class QuestionBankController {
         programService.save(program1);
         ModelAndView modelAndView = new ModelAndView("questionbank/program/programCreate");
         modelAndView.addObject("programCreate",new Program());
-        modelAndView.addObject("message", "Program updated successfully");
+        modelAndView.addObject("success", "Program updated successfully");
         return modelAndView;
     }
     @GetMapping("/program/edit/{id}")
@@ -103,7 +103,7 @@ public class QuestionBankController {
         programService.save(program);
         ModelAndView modelAndView = new ModelAndView("questionbank/program/programEdit");
         modelAndView.addObject("programEdit", program);
-        modelAndView.addObject("message", "Program updated successfully");
+        modelAndView.addObject("success", "Program updated successfully");
         return modelAndView;
     }
 
@@ -145,7 +145,7 @@ public class QuestionBankController {
         ModelAndView modelAndView = new ModelAndView("questionbank/module/moduleCreate");
         modelAndView.addObject("moduleCreate",new Module());
         modelAndView.addObject("program",program);
-        modelAndView.addObject("message", "Module create successfully");
+        modelAndView.addObject("success", "Module create successfully");
         return modelAndView;
     }
     @GetMapping("/program/{programId}/module/edit/{id}")
@@ -168,7 +168,7 @@ public class QuestionBankController {
         ModelAndView modelAndView = new ModelAndView("/questionbank/module/moduleEdit");
         modelAndView.addObject("moduleEdit", module);
         modelAndView.addObject("program",program);
-        modelAndView.addObject("message", "Module updated successfully");
+        modelAndView.addObject("success", "Module updated successfully");
         return modelAndView;
     }
 
@@ -224,7 +224,7 @@ public class QuestionBankController {
         modelAndView.addObject("questionCreate",new Question());
         modelAndView.addObject("program",program);
         modelAndView.addObject("module",module);
-        modelAndView.addObject("message", "Question create successfully");
+        modelAndView.addObject("success", "Question create successfully");
         return modelAndView;
     }
 
@@ -251,7 +251,7 @@ public class QuestionBankController {
         modelAndView.addObject("questionEdit", question);
         modelAndView.addObject("program",program);
         modelAndView.addObject("module",module);
-        modelAndView.addObject("message", "Question updated successfully");
+        modelAndView.addObject("success", "Question updated successfully");
         return modelAndView;
     }
 
@@ -305,7 +305,7 @@ public class QuestionBankController {
         modelAndView.addObject("program",program);
         modelAndView.addObject("module",module);
         modelAndView.addObject("question",question);
-        modelAndView.addObject("message", "answer create successfully");
+        modelAndView.addObject("success", "answer create successfully");
         return modelAndView;
     }
 
@@ -336,7 +336,7 @@ public class QuestionBankController {
         modelAndView.addObject("module",module);
         modelAndView.addObject("question",question);
         modelAndView.addObject("answerEdit", answer);
-        modelAndView.addObject("message", "answer updated successfully");
+        modelAndView.addObject("success", "answer updated successfully");
         return modelAndView;
     }
 

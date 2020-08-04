@@ -26,25 +26,25 @@
     <input name="s" type="text"/>
     <input type="submit" value="Search"/>
 </form><br/>
-<a th:href="@{/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question/create}">Create new question</a>
+<a th:href="@{/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question/create}" th:text="#{label.create}"></a>
 <table border="1">
     <tr>
-        <th>Name</th>
-        <th>type</th>
-        <th>Edit</th>
-        <th>Delete</th>
+        <th th:text="#{label.name}"></th>
+        <th th:text="#{label.type}"></th>
+        <th th:text="#{label.edit}"></th>
+        <th th:text="#{label.delete}"></th>
     </tr>
     <tr th:each="question : ${questionList}">
         <td><a th:href="@{/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question/__${question.id}__/answer}"><p th:text="${question.name}"></p></a></td>
         <td th:text="${question.type}"></td>
-        <td><a th:href="@{/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question/edit/__${question.id}__ }">Edit</a></td>
-        <td><a th:href="@{/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question/delete/__${question.id}__ }">Delete</a></td>
+        <td><a th:href="@{/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question/edit/__${question.id}__ }" th:text="#{label.edit}"></a></td>
+        <td><a th:href="@{/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question/delete/__${question.id}__ }" th:text="#{label.delete}"></a></td>
     </tr>
 </table>
 <div>
-    <a th:href="@{'/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question'(s=${s},page=${questionList.number - 1})}" th:if="${questionList.hasPrevious()}">Previous</a>
+    <a th:href="@{'/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question'(s=${s},page=${questionList.number - 1})}" th:if="${questionList.hasPrevious()}" th:text="#{label.previous}"></a>
     <span th:text="${questionList.number + 1}"></span>/<span th:text="${questionList.totalPages}"></span>
-    <a th:href="@{'/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question'(s=${s},page=${questionList.number + 1})}" th:if="${questionList.hasNext()}">Next</a>
+    <a th:href="@{'/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question'(s=${s},page=${questionList.number + 1})}" th:if="${questionList.hasNext()}" th:text="#{label.next}"></a>
 </div>
 </body>
 </html>
