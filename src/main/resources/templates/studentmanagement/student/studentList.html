@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Student list</title>
@@ -9,6 +10,9 @@
     <a href="/admin">
         <img th:src="@{/Logo.png}" height="100" width="100" alt="Logo Error"/>
     </a>
+</div>
+<div sec:authorize="isAuthenticated()">
+    <span sec:authentication="principal.username"></span>, <a href="/logout">logout</a>.
 </div>
 <form>
     Search by name Student:

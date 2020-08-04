@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Register student</title>
@@ -37,6 +38,9 @@
 <a href="/admin">
     <img th:src="@{/Logo.png}" height="100" width="100" alt="Logo Error"/>
 </a> <br>
+<div sec:authorize="isAuthenticated()">
+    <span sec:authentication="principal.username"></span>, <a href="/logout">logout</a>.
+</div>
 <a href="/admin/studentmanagement/student">Back to student list</a>
 <th:block th:if="${message}">
     <p th:text="${message}"></p>

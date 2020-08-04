@@ -10,9 +10,9 @@
     <img th:src="@{/Logo.png}" height="100" width="100" alt="Logo Error"/>
 </a> <br>
 <a href="/admin/studentmanagement/classes">Back</a>
-<!--<div sec:authorize="isAuthenticated()">-->
-<!--    <span sec:authentication="principal.username"></span>, <a href="/logout">logout</a>.-->
-<!--</div>-->
+<div sec:authorize="isAuthenticated()">
+    <span sec:authentication="principal.username"></span>, <a href="/logout">logout</a>.
+</div>
 <span th:if="${success}" th:text="#{success.editClass}"></span>
 <form method="post" th:object="${classes}">
     <input th:type="hidden" name="id" th:field="*{id}">
