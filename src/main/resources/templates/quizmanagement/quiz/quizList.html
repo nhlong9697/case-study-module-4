@@ -6,7 +6,7 @@
 </head>
 <body>
 <a th:href="@{/admin/quizmanagement/quiz/create}">Create new quiz</a>
-<h1>Class list</h1>
+<h1>Quiz list</h1>
 <table border="1">
     <tr>
         <th>Id</th>
@@ -18,7 +18,7 @@
         <th>Delete</th>
     </tr>
     <tr th:each="quiz : ${quizList}">
-        <td><a th:href="@{/admin/quizmanagement/quiz/__${quiz.id}__}"><p
+        <td><a th:href="@{/admin/quizmanagement/quiz/view/__${quiz.id}__}"><p
                 th:text="${quiz.id}"></p></a></td>
         <td th:text="${quiz.questions[0].module.program.name}"></td>
         <td th:text="${quiz.questions[0].module.name}"></td>

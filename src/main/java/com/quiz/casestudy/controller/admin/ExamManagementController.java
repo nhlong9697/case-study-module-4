@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Controller
@@ -57,8 +58,14 @@ public class ExamManagementController {
         return new ResponseEntity<>(moduleService.findAllByProgram(program), HttpStatus.OK);
     }
     @PostMapping("/getQuestionCountByModuleAndType/{moduleId}/{type}")
-    public ResponseEntity<Iterable<Question>> getQuestioncountByModuleAndType(@RequestBody Program program) {
-        return new ResponseEntity<>(moduleService.findAllByProgram(program), HttpStatus.OK);
+    public ResponseEntity<Long> getQuestioncountByModuleAndType(@PathVariable Long moduleId,
+                                                             @PathVariable int type) {
+        if (!moduleService.findById(moduleId).isPresent()) {
+            return null;
+        } else {
+            Module module = moduleService.findById(moduleId).get();
+            return new ResponseEntity<>(questionService.countAllByTypeAndModule(type,module), HttpStatus.OK);
+        }
     }
     @PostMapping("/quiz/create")
     public ModelAndView classesCreate(@ModelAttribute("newClass") @Validated Quiz quiz,
@@ -87,8 +94,8 @@ public class ExamManagementController {
             questionSet.addAll(hardQuestion);
             quiz.setQuestions(questionSet);
             quizService.save(quiz);
-            modelAndView.addObject("classes", new Classes());
-            modelAndView.addObject("success", "New class created");
+            modelAndView.addObject("newQuiz", new Quiz());
+            modelAndView.addObject("success", "New quiz is created");
         } else {
             return new ModelAndView("error.404");
         }

@@ -9,7 +9,6 @@ import java.util.Set;
 
 @Entity
 @Table
-@Data
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +25,8 @@ public class Question {
     @ManyToOne
     private Module module;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany @JoinTable(name = "question_quiz", joinColumns = @JoinColumn(name = "question_id"),
+            inverseJoinColumns = @JoinColumn(name = "quiz_id"))
     private Set<Quiz> quizzes;
 
     @OneToMany(mappedBy = "question")

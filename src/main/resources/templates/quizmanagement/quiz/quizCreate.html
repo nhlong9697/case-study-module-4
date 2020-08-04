@@ -4,6 +4,95 @@
 <head>
     <meta charset="UTF-8">
     <title>Create class</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#programList').click(function (event) {
+                let program = $('#programList').val();
+                let json = {
+                    id:program
+                }
+                $.ajax({
+                    headers: {
+                        'Accept':'application/json',
+                        'Content-Type':'application/json'
+                    },
+                    type:"POST",
+                    data: JSON.stringify(json),
+                    url: "/admin/quizmanagement/getModuleByProgram",
+                    success: (modules) => {
+                        let content = '';
+                        for (let i = 0; i < modules.length; i++) {
+                            content +=
+                                `<option value="${modules[i].id}">${modules[i].name}</option>`
+                        }
+                        document.getElementById('moduleList').innerHTML=content;
+                    }
+                })
+                event.preventDefault();
+            })
+        })
+        $(document).ready(function () {
+            $('#moduleList').click(function (event) {
+                let module = $('#moduleList').val();
+                $.ajax({
+                    headers: {
+                        'Accept':'application/json',
+                        'Content-Type':'application/json'
+                    },
+                    type:"POST",
+                    url: "/admin/quizmanagement/getQuestionCountByModuleAndType/" + module +
+                        "/1",
+                    success: (count) => {
+                        console.log(count);
+                        let content = '';
+                        for (let i = 0; i < count; i++) {
+                            content +=
+                                `<option value="${i+1}">${i+1}</option>`
+                        }
+                        document.getElementById('easyQuestionCount').innerHTML=content;
+                    }
+                })
+                $.ajax({
+                    headers: {
+                        'Accept':'application/json',
+                        'Content-Type':'application/json'
+                    },
+                    type:"POST",
+                    url: "/admin/quizmanagement/getQuestionCountByModuleAndType/" + module +
+                        "/2",
+                    success: (count) => {
+                        console.log(count);
+                        let content = '';
+                        for (let i = 0; i < count; i++) {
+                            content +=
+                                `<option value="${i+1}">${i+1}</option>`
+                        }
+                        document.getElementById('mediumQuestionCount').innerHTML=content;
+                    }
+                })
+                $.ajax({
+                    headers: {
+                        'Accept':'application/json',
+                        'Content-Type':'application/json'
+                    },
+                    type:"POST",
+                    url: "/admin/quizmanagement/getQuestionCountByModuleAndType/" + module +
+                        "/3",
+                    success: (count) => {
+                        console.log(count);
+                        let content = '';
+                        for (let i = 0; i < count; i++) {
+                            content +=
+                                `<option value="${i+1}">${i+1}</option>`
+                        }
+                        document.getElementById('hardQuestionCount').innerHTML=content;
+                    }
+                })
+                event.preventDefault();
+            })
+        })
+    </script>
 </head>
 <body>
 <div sec:authorize="isAuthenticated()">
@@ -13,50 +102,58 @@
 <form method="post" th:object="${newQuiz}">
     <table>
         <tr>
-            <td th:text="MPS"></td>
+            <td>Program</td>
+            <td>
+                <select name="" id="programList">
+                    <option th:each="program:${programs}"
+                            th:value="${program.id}"
+                            th:text="${program.name}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Module</td>
+            <td>
+                <select name="moduleId" id="moduleList">
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>MPS</td>
             <td><input type="number" th:field="*{MPS}"></td>
             <td><p th:each="error: ${#fields.errors('MPS')}"
                    th:text="${error}"></p></td>
         </tr>
         <tr>
-            <td th:text="Time in minute"></td>
+            <td>Time in minute</td>
             <td><input type="number" th:field="*{time}"></td>
             <td><p th:each="error: ${#fields.errors('time')}"
                    th:text="${error}"></p></td>
         </tr>
         <tr>
-            <td th:text="Easy question"></td>
+            <td>Easy Question</td>
             <td>
-                <select th:name="easyQuestionCount">
-                    <option th:each="i : ${#numbers.sequence(0,${easyQuestionCount})}"
-                            th:value="${i}"
-                            th:text="${i}"></option>
+                <select id="easyQuestionCount" th:name="easyQuestionCount">
                 </select>
             </td>
         </tr>
         <tr>
-            <td th:text="Medium question"></td>
+            <td>Medium Question</td>
             <td>
-                <select th:name="mediumQuestionCount">
-                    <option th:each="i : ${#numbers.sequence(0,${mediumQuestionCount})}"
-                            th:value="${i}"
-                            th:text="${i}"></option>
+                <select id="mediumQuestionCount" th:name="mediumQuestionCount">
                 </select>
             </td>
         </tr>
         <tr>
-            <td th:text="Easy question"></td>
+            <td>Hard question</td>
             <td>
-                <select th:name="hardQuestionCount">
-                    <option th:each="i : ${#numbers.sequence(0,${hardQuestionCount})}"
-                            th:value="${i}"
-                            th:text="${i}"></option>
+                <select id="hardQuestionCount" th:name="hardQuestionCount">
                 </select>
             </td>
         </tr>
         <tr>
             <td></td>
-            <td><input type="submit" th:value="Create quiz"></td>
+            <td><input type="submit" value="Create quiz"></td>
         </tr>
     </table>
 </form>

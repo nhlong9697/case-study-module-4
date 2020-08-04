@@ -16,8 +16,9 @@
         <span th:text="${question.name}"></span>
     </a>
 </span>
-<h1>Quest:  <span th:text="${question.name}"></span></h1>
-<a th:href="@{/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question/__${question.id}__/answer/create}">Create new question</a>
+<h1>Question:  <span th:text="${question.name}"></span></h1>
+<a
+        th:href="@{/admin/questionbank/program/__${program.id}__/module/__${module.id}__/question/__${question.id}__/answer/create}">Create new answer</a>
 <table border="1">
     <tr>
         <th>Name</th>

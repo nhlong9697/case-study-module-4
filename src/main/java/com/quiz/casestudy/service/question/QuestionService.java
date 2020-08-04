@@ -64,10 +64,10 @@ public class QuestionService implements IQuestionService {
     public Set<Question> getRandomQuestionSetByTypeAndModule(int type, Module module, int amount) {
         Set<Question> questionSet = new HashSet<>();
         Long questionCountByType = countAllByTypeAndModule(type,module);
-        int index = (int) (Math.random() * questionCountByType);
-        Page<Question> questionPage = questionRepository.findAllByTypeAndModule(type,module,
-                PageRequest.of(index,1));
         while (questionSet.size() < amount) {
+            int index = (int) (Math.random() * questionCountByType);
+            Page<Question> questionPage = questionRepository.findAllByTypeAndModule(type,module,
+                    PageRequest.of(index,1));
             Question question = null;
             if (questionPage.hasContent()) {
                 question = questionPage.getContent().get(0);
