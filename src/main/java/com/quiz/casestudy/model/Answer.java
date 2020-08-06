@@ -1,5 +1,7 @@
 package com.quiz.casestudy.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,8 +17,9 @@ public class Answer {
     @Column(nullable = false)
     private boolean status;
 
-    @ManyToOne
-    @JoinColumn(name = "question_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_id", referencedColumnName = "id")
+    @JsonIgnore
     private Question question;
 
     public Long getId() {

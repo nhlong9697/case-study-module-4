@@ -8,6 +8,7 @@ import org.springframework.context.MessageSource;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.Set;
 
 @Entity
 @Table
@@ -25,4 +26,7 @@ public class Classes {
 
     @ManyToOne
     private Program program;
+
+    @OneToMany(mappedBy = "classes", fetch = FetchType.LAZY)
+    private Set<Student> students;
 }

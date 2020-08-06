@@ -7,7 +7,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 public interface IQuizRepository extends PagingAndSortingRepository<Quiz, Long> {
-    @Query(value = "SELECT * FROM quiz WHERE quiz.id = (SELECT DISTINCT quiz_id FROM " +
+    @Query(value = "SELECT * FROM quiz WHERE quiz.id IN (SELECT DISTINCT quiz_id FROM " +
             "question_quiz WHERE question_quiz.question_id IN (SELECT id " +
             "FROM question WHERE module_id = :#{#module.id})" +
             " ) ",

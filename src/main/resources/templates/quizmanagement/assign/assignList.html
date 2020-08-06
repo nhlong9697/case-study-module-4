@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Quiz</title>
 </head>
 <body>
-
+<a th:href="@{/admin/quizmanagement/assign/create}">Assign new quiz</a>
+<h1>Assign List</h1>
+<table border="1">
+    <tr>
+        <td>Id</td>
+        <td>Class Id</td>
+        <td>Quiz id</td>
+    </tr>
+    <tr th:each="assign:${assignList}">
+        <td th:text="${assign.id}"></td>
+        <td><a th:href="@{/admin/studentmanagement/classes/__${assign.classes.id}__/student}"><p
+                th:text="${assign.classes.name}"></p></a></td>
+        <td><a th:href="@{/admin/quizmanagement/quiz/view/__${assign.quiz.id}__}"><p
+                th:text="${assign.quiz.id}"></p></a></td>
+    </tr>
+</table>
 </body>
 </html>

@@ -1,10 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Assign quiz</title>
 </head>
 <body>
+<div sec:authorize="isAuthenticated()">
+    <span sec:authentication="principal.username"></span>, <a href="/logout">logout</a>.
+</div>
 
+<span th:if="${success}" th:text="#{success.create}"></span>
+<form method="post" th:object="${newQuizAssignment}">
+    <table>
+        <tr>
+            <td>Program</td>
+            <td>
+                <select name="" id="programList">
+                    <option th:each="program:${programs}"
+                            th:value="${program.id}"
+                            th:text="${program.name}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Module</td>
+            <td>
+                <select id="moduleList"></select>
+            </td>
+        </tr>
+        <tr>
+            <td>Quiz</td>
+            <td>
+                <select id="quizList" th:field="*{quiz}"></select>
+            </td>
+        </tr>
+        <tr>
+            <td>Classes</td>
+            <td>
+                <select id="classesList" th:field="*{classes}"></select>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Assign quiz"></td>
+        </tr>
+    </table>
+</form>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#programList').click(function (event) {
+            let program = $('#programList').val();
+            let json = {
+                id:program
+            }
+            $.ajax({
+                headers: {
+                    'Accept':'application/json',
+                    'Content-Type':'application/json'
+                },
+                type:"POST",
+                data: JSON.stringify(json),
+                url: "/admin/api/getModuleByProgram",
+                success: (modules) => {
+                    let content = '';
+                    for (let i = 0; i < modules.length; i++) {
+                        content +=
+                            `<option value="${modules[i].id}">${modules[i].name}</option>`
+                    }
+                    document.getElementById('moduleList').innerHTML=content;
+                }
+            })
+            $.ajax({
+                headers: {
+                    'Accept':'application/json',
+                    'Content-Type':'application/json'
+                },
+                type:"POST",
+                data: JSON.stringify(json),
+                url: "/admin/api/getClassesByProgram",
+                success: (classes) => {
+                    let content = '';
+                    for (let i = 0; i < classes.length; i++) {
+                        content +=
+                            `<option value="${classes[i].id}">${classes[i].name}</option>`
+                    }
+                    document.getElementById('classesList').innerHTML=content;
+                }
+            })
+            event.preventDefault();
+        });
+        $('#moduleList').click((event) => {
+            let module = $('#moduleList').val();
+            let json = {
+                id:module
+            }
+            $.ajax({
+                headers: {
+                    'Accept':'application/json',
+                    'Content-Type':'application/json'
+                },
+                type:"POST",
+                data: JSON.stringify(json),
+                url: "/admin/api/getQuizByModule",
+                success: (quizzes) => {
+                    let content = '';
+                    for (let i = 0; i < quizzes.length; i++) {
+                        content +=
+                            `<option value="${quizzes[i].id}">${quizzes[i].id}</option>`
+                    }
+                    document.getElementById('quizList').innerHTML=content;
+                }
+            })
+            event.preventDefault();
+        })
+    })
+</script>
 </body>
 </html>

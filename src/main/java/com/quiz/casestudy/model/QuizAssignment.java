@@ -16,8 +16,5 @@ public class QuizAssignment {
     private Quiz quiz;
 
     @ManyToOne
-    private Module module;
-
-    @ManyToOne
     private Classes classes;
 }

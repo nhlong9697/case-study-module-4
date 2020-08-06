@@ -1,6 +1,5 @@
 package com.quiz.casestudy.model;
 
-import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -29,7 +28,7 @@ public class Question {
             inverseJoinColumns = @JoinColumn(name = "quiz_id"))
     private Set<Quiz> quizzes;
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question" ,fetch = FetchType.LAZY)
     private Set<Answer> answers;
 
     public Long getId() {

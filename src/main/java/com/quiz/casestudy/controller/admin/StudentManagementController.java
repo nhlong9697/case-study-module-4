@@ -164,10 +164,7 @@ public class StudentManagementController {
         modelAndView.addObject("newStudent",new Student());
         return modelAndView;
     }
-    @PostMapping("/getClassesByProgram")
-    public ResponseEntity<Iterable<Classes>> getClassesByProgram(@RequestBody Program program) {
-        return new ResponseEntity<>(classesService.findByProgram(program), HttpStatus.OK);
-    }
+
 
     @PostMapping("/student/create")
     public ModelAndView createStudent(@ModelAttribute("newStudent") @Validated Student student,
