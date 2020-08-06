@@ -51,22 +51,9 @@ public class ExamManagementController {
         modelAndView.addObject("newQuiz", new Quiz());
         return modelAndView;
     }
-    @PostMapping("/getModuleByProgram")
-    public ResponseEntity<Iterable<Module>> getClassesByProgram(@RequestBody Program program) {
-        return new ResponseEntity<>(moduleService.findAllByProgram(program), HttpStatus.OK);
-    }
-    @PostMapping("/getQuestionCountByModuleAndType/{moduleId}/{type}")
-    public ResponseEntity<Long> getQuestioncountByModuleAndType(@PathVariable Long moduleId,
-                                                             @PathVariable int type) {
-        if (!moduleService.findById(moduleId).isPresent()) {
-            return null;
-        } else {
-            Module module = moduleService.findById(moduleId).get();
-            return new ResponseEntity<>(questionService.countAllByTypeAndModule(type,module), HttpStatus.OK);
-        }
-    }
+
     @PostMapping("/quiz/create")
-    public ModelAndView classesCreate(@ModelAttribute("newClass") @Validated Quiz quiz,
+    public ModelAndView quizCreate(@ModelAttribute("newClass") @Validated Quiz quiz,
                                       BindingResult bindingResult,
                                       @RequestParam(value = "easyQuestionCount") int easyQuestionCount,
                                       @RequestParam(value = "mediumQuestionCount") int mediumQuestionCount,

@@ -1,5 +1,6 @@
 package com.quiz.casestudy.service.quiz;
 
+import com.quiz.casestudy.model.Module;
 import com.quiz.casestudy.model.Quiz;
 import com.quiz.casestudy.repository.IQuizRepository;
 import com.quiz.casestudy.service.classes.IClassesService;
@@ -32,5 +33,10 @@ public class QuizService implements IQuizService {
     @Override
     public void remove(Long id) {
         quizRepository.deleteById(id);
+    }
+
+    @Override
+    public Iterable<Quiz> findAllByModule(Module module) {
+       return quizRepository.findQuizzesByModule(module);
     }
 }

@@ -19,7 +19,7 @@
                     },
                     type:"POST",
                     data: JSON.stringify(json),
-                    url: "/admin/quizmanagement/getModuleByProgram",
+                    url: "/admin/api/getModuleByProgram",
                     success: (modules) => {
                         let content = '';
                         for (let i = 0; i < modules.length; i++) {
@@ -41,7 +41,7 @@
                         'Content-Type':'application/json'
                     },
                     type:"POST",
-                    url: "/admin/quizmanagement/getQuestionCountByModuleAndType/" + module +
+                    url: "/admin/api/getQuestionCountByModuleAndType/" + module +
                         "/1",
                     success: (count) => {
                         console.log(count);
@@ -59,7 +59,7 @@
                         'Content-Type':'application/json'
                     },
                     type:"POST",
-                    url: "/admin/quizmanagement/getQuestionCountByModuleAndType/" + module +
+                    url: "/admin/api/getQuestionCountByModuleAndType/" + module +
                         "/2",
                     success: (count) => {
                         console.log(count);
@@ -77,7 +77,7 @@
                         'Content-Type':'application/json'
                     },
                     type:"POST",
-                    url: "/admin/quizmanagement/getQuestionCountByModuleAndType/" + module +
+                    url: "/admin/api/getQuestionCountByModuleAndType/" + module +
                         "/3",
                     success: (count) => {
                         console.log(count);
@@ -98,7 +98,7 @@
 <div sec:authorize="isAuthenticated()">
     <span sec:authentication="principal.username"></span>, <a href="/logout">logout</a>.
 </div>
-<span th:if="${success}" th:text="#{success.createClass}"></span>
+<span th:if="${success}" th:text="#{success.create}"></span>
 <form method="post" th:object="${newQuiz}">
     <table>
         <tr>

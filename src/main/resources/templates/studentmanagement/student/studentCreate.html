@@ -19,7 +19,7 @@
                     },
                     type:"POST",
                     data: JSON.stringify(json),
-                    url: "/admin/studentmanagement/getClassesByProgram",
+                    url: "/admin/api/getClassesByProgram",
                     success: (classes) => {
                         let content = '';
                         for (let i = 0; i < classes.length; i++) {
