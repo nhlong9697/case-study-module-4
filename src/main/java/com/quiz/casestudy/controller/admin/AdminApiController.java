@@ -44,7 +44,8 @@ public class AdminApiController {
     }
     @PostMapping("/getClassesByProgram")
     public ResponseEntity<Iterable<Classes>> getClassesByProgram(@RequestBody Program program) {
-        return new ResponseEntity<>(classesService.findByProgram(program), HttpStatus.OK);
+        Iterable<Classes> classes = classesService.findByProgram(program);
+        return new ResponseEntity<>(classes, HttpStatus.OK);
     }
     @PostMapping("/getQuizByModule")
     public ResponseEntity<Iterable<Quiz>> getQuizByModule(@RequestBody Module module) {

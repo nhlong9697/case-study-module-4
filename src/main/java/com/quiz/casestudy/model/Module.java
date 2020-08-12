@@ -12,7 +12,7 @@ public class Module {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Program program;
 
     public Module() {

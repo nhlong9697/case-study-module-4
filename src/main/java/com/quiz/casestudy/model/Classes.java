@@ -1,10 +1,8 @@
 package com.quiz.casestudy.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.quiz.casestudy.validator.UniqueClassesName;
 import com.quiz.casestudy.validator.ValidClassesName;
-import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -12,7 +10,6 @@ import java.util.Set;
 
 @Entity
 @Table
-@Data
 public class Classes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +21,42 @@ public class Classes {
     @UniqueClassesName(message = "{classes.register.error.duplicateClasses}")
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Program program;
 
-    @OneToMany(mappedBy = "classes", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "classes")
     private Set<Student> students;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Program getProgram() {
+        return program;
+    }
+
+    public void setProgram(Program program) {
+        this.program = program;
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
+    }
 }

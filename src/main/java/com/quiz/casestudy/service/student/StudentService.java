@@ -1,11 +1,13 @@
 package com.quiz.casestudy.service.student;
 
 import com.quiz.casestudy.model.AppRole;
+import com.quiz.casestudy.model.AppUser;
 import com.quiz.casestudy.model.Classes;
 import com.quiz.casestudy.model.Student;
 import com.quiz.casestudy.repository.IAppRoleRepository;
 import com.quiz.casestudy.repository.IStudentRepository;
 import com.quiz.casestudy.service.userservice.IAppRoleService;
+import com.quiz.casestudy.service.userservice.IAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +24,8 @@ public class StudentService implements IStudentService {
     private IStudentRepository studentRepository;
     @Autowired
     private IAppRoleRepository appRoleRepository;
+    @Autowired
+    private IAppUserService appUserService;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -40,6 +44,8 @@ public class StudentService implements IStudentService {
         //set role
         student.getAppUser().setRole(appRoleRepository.findAppRoleByAuthority("ROLE_STUDENT").get());
         //encode password
+        AppUser savedStudent = appUserService.save(student.getAppUser());
+        student.setAppUser(savedStudent);
         return studentRepository.save(student);
     }
 

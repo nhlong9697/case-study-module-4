@@ -31,7 +31,7 @@
         <td><a th:href="@{/admin/studentmanagement/classes/__${class.id}__/student}"><p
                 th:text="${class.name}"></p></a></td>
         <td><p th:text="${class.program.name}"></p></td>
-        <td><p th:text="${class.students.size()}"></p></td>
+        <td><p th:text="${class.getStudents()} != null ? ${class.students.size()} : 0"></p></td>
         <td><a th:href="@{/admin/studentmanagement/classes/edit/__${class.id}__}">Edit</a></td>
         <td><a th:href="@{/admin/studentmanagement/classes/delete/__${class.id}__}">Delete</a></td>
     </tr>

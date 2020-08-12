@@ -21,7 +21,8 @@ public class Question {
     @Max(3)
     private int type;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+
     private Module module;
 
     @ManyToMany @JoinTable(name = "question_quiz", joinColumns = @JoinColumn(name = "question_id"),

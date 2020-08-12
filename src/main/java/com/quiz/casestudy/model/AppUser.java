@@ -1,6 +1,7 @@
 package com.quiz.casestudy.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.quiz.casestudy.validator.UniqueEmail;
 import com.quiz.casestudy.validator.ValidEmail;
 import com.quiz.casestudy.validator.ValidPassword;
@@ -26,6 +27,7 @@ public class AppUser {
     @ValidPassword(message = "{user.register.error.invalidPassword}")
     private String password;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private AppRole role;
 }
