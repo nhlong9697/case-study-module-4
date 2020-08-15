@@ -6,9 +6,10 @@ import com.quiz.casestudy.service.module.IModuleService;
 import com.quiz.casestudy.service.program.IProgramService;
 import com.quiz.casestudy.service.question.IQuestionService;
 import com.quiz.casestudy.service.quiz.IQuizService;
+import com.quiz.casestudy.service.student.IStudentService;
+import com.quiz.casestudy.service.studentquiz.IStudentQuizService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -31,6 +32,8 @@ public class ExamManagementController {
     private IProgramService programService;
     @Autowired
     private IQuizAssignmentService quizAssignmentService;
+    @Autowired
+    private IStudentQuizService studentQuizService;
 
     @ModelAttribute("programs")
     public Iterable<Program> programs(){
@@ -117,7 +120,21 @@ public class ExamManagementController {
 
     @PostMapping("/assign/create")
     public ModelAndView createQuizAssignment(@ModelAttribute("newQuizAssignment") QuizAssignment quizAssignment) {
-        quizAssignmentService.save(quizAssignment);
+        QuizAssignment savedQuizAssignment = quizAssignmentService.save(quizAssignment);
+
+        //try to save list of student quiz to database to save answer later because can't send a
+        //list of model attributes or multiple model attribute
+        Set<Student> students = savedQuizAssignment.getClasses().getStudents();
+        Quiz quiz = savedQuizAssignment.getQuiz();
+        for (Student student: students) {
+            StudentQuiz studentQuiz = new StudentQuiz();
+            studentQuiz.setStudent(student);
+            studentQuiz.setQuiz(quiz);
+            //0 is not start
+            studentQuiz.setStatus(0);
+            studentQuizService.save(studentQuiz);
+        }
+
         ModelAndView modelAndView = new ModelAndView("quizmanagement/assign/assignCreate");
         modelAndView.addObject("newQuizAssignment", new QuizAssignment());
         modelAndView.addObject("success", "success");

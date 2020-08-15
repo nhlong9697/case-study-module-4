@@ -24,6 +24,10 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     private IAppUserService appUserService;
 
     @Autowired
+    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
+
+    @Autowired
     protected void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService((UserDetailsService) appUserService)
                 .passwordEncoder(passwordEncoder());
@@ -34,9 +38,9 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/","register").permitAll()
                 .antMatchers("/admin/**").access("hasRole('ADMIN')")
-                .antMatchers("/home/**").access("hasRole('USER')")
+                .antMatchers("/home/**").access("hasRole('STUDENT')")
                 .and()
-                .formLogin()
+                .formLogin().successHandler(customAuthenticationSuccessHandler)
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .and().exceptionHandling().accessDeniedPage("/error");

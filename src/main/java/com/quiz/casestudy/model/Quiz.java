@@ -14,6 +14,8 @@ public class Quiz {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+//    private String quizName;
+
     @Min(0)
     @Max(100)
     private int MPS;
@@ -23,7 +25,7 @@ public class Quiz {
     @ManyToMany
     @JoinTable(name = "question_quiz", joinColumns = @JoinColumn(name = "quiz_id"),
             inverseJoinColumns = @JoinColumn(name = "question_id"))
-    Set<Question> questions;
+    private Set<Question> questions;
 
     public Quiz() {
     }
@@ -59,4 +61,12 @@ public class Quiz {
     public void setQuestions(Set<Question> questions) {
         this.questions = questions;
     }
+
+//    public String getQuizName() {
+//        return quizName;
+//    }
+//
+//    public void setQuizName(String quizName) {
+//        this.quizName = quizName;
+//    }
 }

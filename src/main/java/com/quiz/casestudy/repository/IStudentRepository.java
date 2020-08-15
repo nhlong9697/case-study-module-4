@@ -1,5 +1,6 @@
 package com.quiz.casestudy.repository;
 
+import com.quiz.casestudy.model.AppUser;
 import com.quiz.casestudy.model.Classes;
 import com.quiz.casestudy.model.Question;
 import com.quiz.casestudy.model.Student;
@@ -12,4 +13,5 @@ public interface IStudentRepository extends PagingAndSortingRepository<Student, 
     Page<Student> findAllByClasses(Classes classes, Pageable pageable);
     Page<Student> findAllByNameContaining(String name, Pageable pageble);
     Page<Student> findAll(Pageable pageble);
+    Student findByAppUser(AppUser appUser);
 }

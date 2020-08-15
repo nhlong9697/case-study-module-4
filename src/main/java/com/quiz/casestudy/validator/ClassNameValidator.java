@@ -8,9 +8,8 @@ import java.util.regex.Pattern;
 public class ClassNameValidator
         implements ConstraintValidator<ValidClassesName, String> {
 
-    private Pattern pattern;
-    private Matcher matcher;
-    private static final String CLASSESNAME_PATTERN = "^[CAP](0[1-9]|1[0-2])\\d{2}[GHIKML]$";
+    private static final String CLASSES_NAME_PATTERN = "^[CAP](0[1-9]|1[0-2])" +
+            "\\d{2}[GHIKML][1-9]$";
 
     @Override
     public void initialize(ValidClassesName constraintAnnotation) {
@@ -22,8 +21,8 @@ public class ClassNameValidator
     }
 
     private boolean validateEmail(String email) {
-        pattern = Pattern.compile(CLASSESNAME_PATTERN);
-        matcher = pattern.matcher(email);
+        Pattern pattern = Pattern.compile(CLASSES_NAME_PATTERN);
+        Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
 }

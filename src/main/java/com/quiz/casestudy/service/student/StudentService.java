@@ -68,4 +68,9 @@ public class StudentService implements IStudentService {
     public Page<Student> findAll(Pageable pageble) {
         return studentRepository.findAll(pageble);
     }
+
+    @Override
+    public Student findByAppUser(AppUser appUser) {
+        return studentRepository.findByAppUser(appUser);
+    }
 }

@@ -9,10 +9,9 @@ import java.util.List;
 
 @Entity
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"authority"})})
-@Data
 public class AppRole implements GrantedAuthority {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -27,6 +26,18 @@ public class AppRole implements GrantedAuthority {
     public AppRole() {
     }
     public AppRole(String authority) {
+        this.authority = authority;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setAuthority(String authority) {
         this.authority = authority;
     }
 }

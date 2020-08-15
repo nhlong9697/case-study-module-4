@@ -51,4 +51,5 @@ public class AdminApiController {
     public ResponseEntity<Iterable<Quiz>> getQuizByModule(@RequestBody Module module) {
         return new ResponseEntity<>(quizService.findAllByModule(module), HttpStatus.OK);
     }
+
 }

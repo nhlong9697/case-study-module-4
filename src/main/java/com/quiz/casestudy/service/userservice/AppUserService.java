@@ -23,29 +23,27 @@ import java.util.Optional;
 public class AppUserService implements IAppUserService, UserDetailsService {
     @Autowired
     private IAppUserRepository userRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public Optional<AppUser >getUserByEmail(String username) {
         return userRepository.findByEmail(username);
     }
 
     @Override
     public boolean existByEmail(String email) {
-        boolean exist = userRepository.existsByEmail(email);
-        return exist;
+        return userRepository.existsByEmail(email);
     }
 
+    @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         AppUser appUser = this.getUserByEmail(email).get();
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(appUser.getRole());
 
-        UserDetails userDetails = new User(appUser.getEmail(),
+        return new User(appUser.getEmail(),
                 appUser.getPassword(),
                 authorities);
-        return userDetails;
     }
 
     @Override

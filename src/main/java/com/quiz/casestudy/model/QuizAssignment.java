@@ -1,5 +1,6 @@
 package com.quiz.casestudy.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -12,9 +13,11 @@ public class QuizAssignment {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Quiz quiz;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Classes classes;
 
     public QuizAssignment() {

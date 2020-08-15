@@ -3,6 +3,7 @@ package com.quiz.casestudy.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table
@@ -21,6 +22,11 @@ public class Answer {
     @JoinColumn(name = "question_id", referencedColumnName = "id")
     @JsonIgnore
     private Question question;
+
+    @ManyToMany
+    @JoinTable(name = "student_quiz_answer" , joinColumns = @JoinColumn(name =
+            "answer_id"), inverseJoinColumns = @JoinColumn(name = "student_quiz_id"))
+    private Set<StudentQuiz> studentQuizs;
 
     public Long getId() {
         return id;
@@ -52,5 +58,13 @@ public class Answer {
 
     public void setQuestion(Question question) {
         this.question = question;
+    }
+
+    public Set<StudentQuiz> getStudentQuizs() {
+        return studentQuizs;
+    }
+
+    public void setStudentQuizs(Set<StudentQuiz> studentQuizs) {
+        this.studentQuizs = studentQuizs;
     }
 }
